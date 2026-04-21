@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="A:\Github\angry-birds-clone-assignment-Tobes213\test_src\RunTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Enemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Slingshot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{1C133C4F-A466-3074-9B4F-B6A0E8FD305F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{ACDF9B06-B21B-3951-9276-B8CBDC332627}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

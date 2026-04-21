@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\sfml-subbuild\CMakeFiles\b538ca9424253430f5745d8f75baee1b\sfml-populate-mkdir.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\sfml-subbuild\CMakeFiles\b538ca9424253430f5745d8f75baee1b\sfml-populate-download.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\sfml-subbuild\CMakeFiles\b538ca9424253430f5745d8f75baee1b\sfml-populate-update.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\sfml-subbuild\CMakeFiles\b538ca9424253430f5745d8f75baee1b\sfml-populate-patch.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\sfml-subbuild\CMakeFiles\b538ca9424253430f5745d8f75baee1b\sfml-populate-configure.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\sfml-subbuild\CMakeFiles\b538ca9424253430f5745d8f75baee1b\sfml-populate-build.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\sfml-subbuild\CMakeFiles\b538ca9424253430f5745d8f75baee1b\sfml-populate-install.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\sfml-subbuild\CMakeFiles\b538ca9424253430f5745d8f75baee1b\sfml-populate-test.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\sfml-subbuild\CMakeFiles\6126552ad94c3e47332d49b1d96b1c7f\sfml-populate-complete.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\sfml-subbuild\CMakeFiles\1a99983b5b9ddaff9c6d083d19c3e811\sfml-populate.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\sfml-subbuild\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\sfml-subbuild\CMakeFiles\sfml-populate" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{DFDD1B60-BB2F-3D4F-9D41-9BCC7C42331B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

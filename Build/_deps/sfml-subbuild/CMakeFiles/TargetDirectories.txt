@@ -1,0 +1,3 @@
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/sfml-populate.dir
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/ALL_BUILD.dir
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/ZERO_CHECK.dir

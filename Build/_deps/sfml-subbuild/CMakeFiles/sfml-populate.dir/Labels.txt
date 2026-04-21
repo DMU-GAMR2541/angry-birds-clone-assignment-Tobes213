@@ -1,0 +1,14 @@
+# Target labels
+ sfml-populate
+# Source files and their labels
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/sfml-populate
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/1a99983b5b9ddaff9c6d083d19c3e811/sfml-populate.rule
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/6126552ad94c3e47332d49b1d96b1c7f/sfml-populate-complete.rule
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/b538ca9424253430f5745d8f75baee1b/sfml-populate-build.rule
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/b538ca9424253430f5745d8f75baee1b/sfml-populate-configure.rule
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/b538ca9424253430f5745d8f75baee1b/sfml-populate-download.rule
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/b538ca9424253430f5745d8f75baee1b/sfml-populate-install.rule
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/b538ca9424253430f5745d8f75baee1b/sfml-populate-mkdir.rule
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/b538ca9424253430f5745d8f75baee1b/sfml-populate-patch.rule
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/b538ca9424253430f5745d8f75baee1b/sfml-populate-test.rule
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/b538ca9424253430f5745d8f75baee1b/sfml-populate-update.rule

@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <iostream>
 
 /// <summary>
 /// A simple class that you can use to begin the testing process using Googletest.
@@ -27,6 +28,11 @@ public:
 
     int getTension() const { return i_tension; }
     std::string getBirdType() const { return str_birdType; }
+
+    void setBirdType(std::string type) {
+        str_birdType = type;
+        std::cout << "Bird type set to: " << type << std::endl;
+    }
 
     void release() { i_tension = 0; }
 };

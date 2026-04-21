@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\box2d-src\extern\glad\src\gl.c">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\box2d-src\extern\glad\include\glad\gl.h">
+      <Filter>include\glad</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\box2d-src\extern\glad\include\KHR\khrplatform.h">
+      <Filter>include\KHR</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\box2d-src\extern\glad\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{100470F2-8FB4-33D9-AEFE-0493102A8F19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\KHR">
+      <UniqueIdentifier>{C4D6DEA2-611A-3243-846A-6B0211262741}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\glad">
+      <UniqueIdentifier>{210EADC8-D7B1-3987-9A57-3ADA05471132}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{F535A97E-C7DA-321C-BBBC-4BCD5B938A80}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

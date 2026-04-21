@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\googletest-subbuild\CMakeFiles\ea263220ff19ba53f04264d45aa165e0\googletest-populate-mkdir.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\googletest-subbuild\CMakeFiles\ea263220ff19ba53f04264d45aa165e0\googletest-populate-download.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\googletest-subbuild\CMakeFiles\ea263220ff19ba53f04264d45aa165e0\googletest-populate-update.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\googletest-subbuild\CMakeFiles\ea263220ff19ba53f04264d45aa165e0\googletest-populate-patch.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\googletest-subbuild\CMakeFiles\ea263220ff19ba53f04264d45aa165e0\googletest-populate-configure.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\googletest-subbuild\CMakeFiles\ea263220ff19ba53f04264d45aa165e0\googletest-populate-build.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\googletest-subbuild\CMakeFiles\ea263220ff19ba53f04264d45aa165e0\googletest-populate-install.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\googletest-subbuild\CMakeFiles\ea263220ff19ba53f04264d45aa165e0\googletest-populate-test.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\googletest-subbuild\CMakeFiles\89ddfc85a6ab2513c938d0625f8b818a\googletest-populate-complete.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\googletest-subbuild\CMakeFiles\8b4eaa0d218a5c4a679ed96fc64214c0\googletest-populate.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\googletest-subbuild\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="A:\Github\angry-birds-clone-assignment-Tobes213\Build\_deps\googletest-subbuild\CMakeFiles\googletest-populate" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{DA262A6A-1326-3475-805D-678C2B1346F8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

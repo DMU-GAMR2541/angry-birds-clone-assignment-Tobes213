@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/sfml-populate"
+		},
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/1a99983b5b9ddaff9c6d083d19c3e811/sfml-populate.rule"
+		},
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/6126552ad94c3e47332d49b1d96b1c7f/sfml-populate-complete.rule"
+		},
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/b538ca9424253430f5745d8f75baee1b/sfml-populate-build.rule"
+		},
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/b538ca9424253430f5745d8f75baee1b/sfml-populate-configure.rule"
+		},
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/b538ca9424253430f5745d8f75baee1b/sfml-populate-download.rule"
+		},
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/b538ca9424253430f5745d8f75baee1b/sfml-populate-install.rule"
+		},
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/b538ca9424253430f5745d8f75baee1b/sfml-populate-mkdir.rule"
+		},
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/b538ca9424253430f5745d8f75baee1b/sfml-populate-patch.rule"
+		},
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/b538ca9424253430f5745d8f75baee1b/sfml-populate-test.rule"
+		},
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-subbuild/CMakeFiles/b538ca9424253430f5745d8f75baee1b/sfml-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"sfml-populate"
+		],
+		"name" : "sfml-populate"
+	}
+}

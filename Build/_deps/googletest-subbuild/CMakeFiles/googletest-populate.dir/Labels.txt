@@ -1,0 +1,14 @@
+# Target labels
+ googletest-populate
+# Source files and their labels
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/googletest-populate
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/8b4eaa0d218a5c4a679ed96fc64214c0/googletest-populate.rule
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/89ddfc85a6ab2513c938d0625f8b818a/googletest-populate-complete.rule
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/ea263220ff19ba53f04264d45aa165e0/googletest-populate-build.rule
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/ea263220ff19ba53f04264d45aa165e0/googletest-populate-configure.rule
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/ea263220ff19ba53f04264d45aa165e0/googletest-populate-download.rule
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/ea263220ff19ba53f04264d45aa165e0/googletest-populate-install.rule
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/ea263220ff19ba53f04264d45aa165e0/googletest-populate-mkdir.rule
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/ea263220ff19ba53f04264d45aa165e0/googletest-populate-patch.rule
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/ea263220ff19ba53f04264d45aa165e0/googletest-populate-test.rule
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/ea263220ff19ba53f04264d45aa165e0/googletest-populate-update.rule

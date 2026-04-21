@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/googletest-populate"
+		},
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/8b4eaa0d218a5c4a679ed96fc64214c0/googletest-populate.rule"
+		},
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/89ddfc85a6ab2513c938d0625f8b818a/googletest-populate-complete.rule"
+		},
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/ea263220ff19ba53f04264d45aa165e0/googletest-populate-build.rule"
+		},
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/ea263220ff19ba53f04264d45aa165e0/googletest-populate-configure.rule"
+		},
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/ea263220ff19ba53f04264d45aa165e0/googletest-populate-download.rule"
+		},
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/ea263220ff19ba53f04264d45aa165e0/googletest-populate-install.rule"
+		},
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/ea263220ff19ba53f04264d45aa165e0/googletest-populate-mkdir.rule"
+		},
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/ea263220ff19ba53f04264d45aa165e0/googletest-populate-patch.rule"
+		},
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/ea263220ff19ba53f04264d45aa165e0/googletest-populate-test.rule"
+		},
+		{
+			"file" : "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-subbuild/CMakeFiles/ea263220ff19ba53f04264d45aa165e0/googletest-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"googletest-populate"
+		],
+		"name" : "googletest-populate"
+	}
+}

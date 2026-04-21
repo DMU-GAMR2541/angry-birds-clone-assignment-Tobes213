@@ -1,0 +1,12 @@
+# CMake generation dependency list for this directory.
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-src/CMakeLists.txt
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-src/cmake/Config.cmake
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-src/cmake/SFMLConfig.cmake.in
+A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/sfml-src/cmake/SFMLConfigDependencies.cmake.in
+C:/Program Files/CMake/share/cmake-4.3/Modules/BasicConfigVersion-SameMajorVersion.cmake.in
+C:/Program Files/CMake/share/cmake-4.3/Modules/CMakePackageConfigHelpers.cmake
+C:/Program Files/CMake/share/cmake-4.3/Modules/CPack.cmake
+C:/Program Files/CMake/share/cmake-4.3/Modules/CPackComponent.cmake
+C:/Program Files/CMake/share/cmake-4.3/Modules/GNUInstallDirs.cmake
+C:/Program Files/CMake/share/cmake-4.3/Modules/WriteBasicConfigVersionFile.cmake
+C:/Program Files/CMake/share/cmake-4.3/Templates/CPackConfig.cmake.in
