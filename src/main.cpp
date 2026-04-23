@@ -1,6 +1,10 @@
 #include <SFML/Graphics.hpp>
 #include <box2d/box2d.h>
 #include <iostream>
+#include "Bird.h"
+#include "Pig.h"
+#include "Catapult.h"
+#include "DynamicObject.h"
 
 int main() {
     // --- 1. WINDOW SETUP ---
@@ -136,6 +140,24 @@ int main() {
 
         window.display();
     }
+
+
+    Bird redBird("Red", 1.0f, 10.0f, 100.0f, 200.0f);
+    Pig smallPig(1.0f, 50, 300.0f, 400.0f);
+    Catapult catapult(50.0f, 500.0f);
+
+    DynamicObject* obj1 = &redBird;
+    DynamicObject* obj2 = &smallPig;
+    DynamicObject* obj3 = &catapult;
+
+    std::cout << "\n--- Upcasting Demo ---" << std::endl;
+    obj1->update();
+    obj2->update();
+    obj3->update();
+
+    std::cout << "\n--- Upcast to GameObject ---" << std::endl;
+    GameObject* gameObj1 = &redBird;
+    std::cout << "Type: " << gameObj1->getType() << std::endl;
 
     return 0;
 }
