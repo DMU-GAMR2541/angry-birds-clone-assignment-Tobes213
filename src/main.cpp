@@ -21,6 +21,14 @@ int main() {
     b2Vec2 b2_gravity(0.0f, 9.8f); // Earth-like gravity
     b2World world(b2_gravity);
 
+    Pig pig1(20.0f, 100, world, b2Vec2(200.0f / 30.0f, 300.0f / 30.0f), window, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/sprite_1.png", sf::IntRect(4, 5, 56, 47));
+    Pig pig2(30.0f, 150, world, b2Vec2(400.0f / 30.0f, 200.0f / 30.0f), window, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/sprite_2.png", sf::IntRect(5, 0, 89, 100));
+    Pig pig3(40.0f, 200, world, b2Vec2(600.0f / 30.0f, 100.0f / 30.0f), window, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/sprite_4.png", sf::IntRect(2, 8, 103, 98));
+
+    sf::CircleShape mouseCircle(20.0f);
+    mouseCircle.setFillColor(sf::Color::Blue);
+    mouseCircle.setOrigin(20.0f, 20.0f);
+
     //Setup ground for the circle to move / bounce on.
     //Needs to have a body definition and a body. We use a raw pointer for the b2Body as Box2d does the management itself.
     //A body can be defined as having a position, velocity, and mass. 
@@ -100,8 +108,10 @@ int main() {
 
             // INPUT HANDLING: Press SPACE to launch
             if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code == sf::Keyboard::Space) {
-                    // Reset position of the ball so that it can be fired again from its original poisition.
+                if (event.key.code == sf::Keyboard::P) {
+                    pig1.applyImpulse(2.0f, -5.0f);
+                }
+                if (event.key.code == sf::Keyboard::Space) {                    // Reset position of the ball so that it can be fired again from its original poisition.
                     b2_ballBody->SetTransform(b2Vec2(100.0f / SCALE, 500.0f / SCALE), 0);
                     b2_ballBody->SetLinearVelocity(b2Vec2(0, 0));
                     b2_ballBody->SetAngularVelocity(0);
@@ -116,6 +126,15 @@ int main() {
 
         // Update Physics
         world.Step(1.0f / 60.0f, 8, 3);
+
+        pig1.update();
+        pig2.update();
+        pig3.update();
+
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+            mouseCircle.setPosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+        }
 
         //All of the visuals needs to be synced with the physics.
 
@@ -133,6 +152,11 @@ int main() {
         //Render all of the content at each frame. Remember you need to clear the screen each iteration or artefacts remain.
         window.clear(sf::Color(135, 206, 235)); // Sky Blue
 
+        pig1.render(window);
+        pig2.render(window);
+        pig3.render(window);
+        window.draw(mouseCircle); 
+
         window.draw(sf_groundVisual);
         window.draw(sf_wallVisual);
         window.draw(sf_plankVisual);
@@ -143,7 +167,7 @@ int main() {
 
 
     Bird redBird("Red", 1.0f, 10.0f, 100.0f, 200.0f);
-    Pig smallPig(1.0f, 50, 300.0f, 400.0f);
+    Pig smallPig(20.0f, 50, world, b2Vec2(300.0f / 30.0f, 400.0f / 30.0f), window, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/Pigs.png", sf::IntRect(0, 0, 120, 120));
     Catapult catapult(50.0f, 500.0f);
 
     DynamicObject* obj1 = &redBird;

@@ -1,34 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClCompile Include="A:\Github\angry-birds-clone-assignment-Tobes213\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Bird.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Catapult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\DynamicObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Enemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\NonInteractable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Pig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Slingshot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Bird.h">
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\StaticObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Catapult.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\DynamicObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\NonInteractable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\Pig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\StaticObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\UI.h">
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -42,10 +47,5 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{ACDF9B06-B21B-3951-9276-B8CBDC332627}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

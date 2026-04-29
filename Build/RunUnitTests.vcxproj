@@ -90,30 +90,22 @@
       <AdditionalOptions>%(AdditionalOptions) /external:I "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-src/googletest/include" /external:I "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-src/googletest"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <BufferSecurityCheck>
-      </BufferSecurityCheck>
-      <CallingConvention>
-      </CallingConvention>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
-      <FloatingPointModel>
-      </FloatingPointModel>
-      <ForceConformanceInForLoopScope>
-      </ForceConformanceInForLoopScope>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <MinimalRebuild>
-      </MinimalRebuild>
+      <MinimalRebuild></MinimalRebuild>
       <Optimization>Disabled</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <RemoveUnreferencedCodeData>
-      </RemoveUnreferencedCodeData>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <SupportJustMyCode>
-      </SupportJustMyCode>
-      <TreatWChar_tAsBuiltInType>
-      </TreatWChar_tAsBuiltInType>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;SFML_STATIC;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
@@ -135,18 +127,14 @@
       <AdditionalDependencies>lib\Debug\gtest.lib;lib\Debug\gtest_main.lib;_deps\box2d-build\bin\Debug\box2d.lib;_deps\sfml-build\lib\Debug\sfml-graphics-s-d.lib;_deps\sfml-build\lib\Debug\sfml-audio-s-d.lib;_deps\sfml-build\lib\Debug\sfml-network-s-d.lib;_deps\sfml-build\lib\Debug\sfml-system-s-d.lib;lib\Debug\gtest.lib;_deps\sfml-build\lib\Debug\sfml-window-s-d.lib;opengl32.lib;gdi32.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\freetype.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\openal32.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbisenc.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbisfile.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbis.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\ogg.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\flac.lib;_deps\sfml-build\lib\Debug\sfml-system-s-d.lib;winmm.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
+      <DataExecutionPrevention></DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImageHasSafeExceptionHandlers>
-      </ImageHasSafeExceptionHandlers>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>A:/Github/angry-birds-clone-assignment-Tobes213/Build/Debug/RunUnitTests.lib</ImportLibrary>
-      <LinkErrorReporting>
-      </LinkErrorReporting>
+      <LinkErrorReporting></LinkErrorReporting>
       <ProgramDataBaseFile>A:/Github/angry-birds-clone-assignment-Tobes213/Build/bin/Debug/RunUnitTests.pdb</ProgramDataBaseFile>
-      <RandomizedBaseAddress>
-      </RandomizedBaseAddress>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -159,29 +147,21 @@
       <AdditionalOptions>%(AdditionalOptions) /external:I "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-src/googletest/include" /external:I "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-src/googletest"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <BufferSecurityCheck>
-      </BufferSecurityCheck>
-      <CallingConvention>
-      </CallingConvention>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
       <ExceptionHandling>Sync</ExceptionHandling>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
-      <FloatingPointModel>
-      </FloatingPointModel>
-      <ForceConformanceInForLoopScope>
-      </ForceConformanceInForLoopScope>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <MinimalRebuild>
-      </MinimalRebuild>
+      <MinimalRebuild></MinimalRebuild>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <RemoveUnreferencedCodeData>
-      </RemoveUnreferencedCodeData>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <SupportJustMyCode>
-      </SupportJustMyCode>
-      <TreatWChar_tAsBuiltInType>
-      </TreatWChar_tAsBuiltInType>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SFML_STATIC;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
@@ -205,18 +185,14 @@
       <AdditionalDependencies>lib\Release\gtest.lib;lib\Release\gtest_main.lib;_deps\box2d-build\bin\Release\box2d.lib;_deps\sfml-build\lib\Release\sfml-graphics-s.lib;_deps\sfml-build\lib\Release\sfml-audio-s.lib;_deps\sfml-build\lib\Release\sfml-network-s.lib;_deps\sfml-build\lib\Release\sfml-system-s.lib;lib\Release\gtest.lib;_deps\sfml-build\lib\Release\sfml-window-s.lib;opengl32.lib;gdi32.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\freetype.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\openal32.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbisenc.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbisfile.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbis.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\ogg.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\flac.lib;_deps\sfml-build\lib\Release\sfml-system-s.lib;winmm.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
+      <DataExecutionPrevention></DataExecutionPrevention>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImageHasSafeExceptionHandlers>
-      </ImageHasSafeExceptionHandlers>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>A:/Github/angry-birds-clone-assignment-Tobes213/Build/Release/RunUnitTests.lib</ImportLibrary>
-      <LinkErrorReporting>
-      </LinkErrorReporting>
+      <LinkErrorReporting></LinkErrorReporting>
       <ProgramDataBaseFile>A:/Github/angry-birds-clone-assignment-Tobes213/Build/bin/Release/RunUnitTests.pdb</ProgramDataBaseFile>
-      <RandomizedBaseAddress>
-      </RandomizedBaseAddress>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -229,29 +205,21 @@
       <AdditionalOptions>%(AdditionalOptions) /external:I "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-src/googletest/include" /external:I "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-src/googletest"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <BufferSecurityCheck>
-      </BufferSecurityCheck>
-      <CallingConvention>
-      </CallingConvention>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
       <ExceptionHandling>Sync</ExceptionHandling>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
-      <FloatingPointModel>
-      </FloatingPointModel>
-      <ForceConformanceInForLoopScope>
-      </ForceConformanceInForLoopScope>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <MinimalRebuild>
-      </MinimalRebuild>
+      <MinimalRebuild></MinimalRebuild>
       <Optimization>MinSpace</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <RemoveUnreferencedCodeData>
-      </RemoveUnreferencedCodeData>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <SupportJustMyCode>
-      </SupportJustMyCode>
-      <TreatWChar_tAsBuiltInType>
-      </TreatWChar_tAsBuiltInType>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SFML_STATIC;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
@@ -275,18 +243,14 @@
       <AdditionalDependencies>lib\MinSizeRel\gtest.lib;lib\MinSizeRel\gtest_main.lib;_deps\box2d-build\bin\MinSizeRel\box2d.lib;_deps\sfml-build\lib\MinSizeRel\sfml-graphics-s.lib;_deps\sfml-build\lib\MinSizeRel\sfml-audio-s.lib;_deps\sfml-build\lib\MinSizeRel\sfml-network-s.lib;_deps\sfml-build\lib\MinSizeRel\sfml-system-s.lib;lib\MinSizeRel\gtest.lib;_deps\sfml-build\lib\MinSizeRel\sfml-window-s.lib;opengl32.lib;gdi32.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\freetype.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\openal32.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbisenc.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbisfile.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbis.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\ogg.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\flac.lib;_deps\sfml-build\lib\MinSizeRel\sfml-system-s.lib;winmm.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
+      <DataExecutionPrevention></DataExecutionPrevention>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImageHasSafeExceptionHandlers>
-      </ImageHasSafeExceptionHandlers>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>A:/Github/angry-birds-clone-assignment-Tobes213/Build/MinSizeRel/RunUnitTests.lib</ImportLibrary>
-      <LinkErrorReporting>
-      </LinkErrorReporting>
+      <LinkErrorReporting></LinkErrorReporting>
       <ProgramDataBaseFile>A:/Github/angry-birds-clone-assignment-Tobes213/Build/bin/MinSizeRel/RunUnitTests.pdb</ProgramDataBaseFile>
-      <RandomizedBaseAddress>
-      </RandomizedBaseAddress>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -299,30 +263,22 @@
       <AdditionalOptions>%(AdditionalOptions) /external:I "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-src/googletest/include" /external:I "A:/Github/angry-birds-clone-assignment-Tobes213/Build/_deps/googletest-src/googletest"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <BufferSecurityCheck>
-      </BufferSecurityCheck>
-      <CallingConvention>
-      </CallingConvention>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
-      <FloatingPointModel>
-      </FloatingPointModel>
-      <ForceConformanceInForLoopScope>
-      </ForceConformanceInForLoopScope>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <MinimalRebuild>
-      </MinimalRebuild>
+      <MinimalRebuild></MinimalRebuild>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <RemoveUnreferencedCodeData>
-      </RemoveUnreferencedCodeData>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <SupportJustMyCode>
-      </SupportJustMyCode>
-      <TreatWChar_tAsBuiltInType>
-      </TreatWChar_tAsBuiltInType>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SFML_STATIC;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
@@ -344,18 +300,14 @@
       <AdditionalDependencies>lib\RelWithDebInfo\gtest.lib;lib\RelWithDebInfo\gtest_main.lib;_deps\box2d-build\bin\RelWithDebInfo\box2d.lib;_deps\sfml-build\lib\RelWithDebInfo\sfml-graphics-s.lib;_deps\sfml-build\lib\RelWithDebInfo\sfml-audio-s.lib;_deps\sfml-build\lib\RelWithDebInfo\sfml-network-s.lib;_deps\sfml-build\lib\RelWithDebInfo\sfml-system-s.lib;lib\RelWithDebInfo\gtest.lib;_deps\sfml-build\lib\RelWithDebInfo\sfml-window-s.lib;opengl32.lib;gdi32.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\freetype.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\openal32.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbisenc.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbisfile.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbis.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\ogg.lib;_deps\sfml-src\extlibs\libs-msvc-universal\x64\flac.lib;_deps\sfml-build\lib\RelWithDebInfo\sfml-system-s.lib;winmm.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
+      <DataExecutionPrevention></DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImageHasSafeExceptionHandlers>
-      </ImageHasSafeExceptionHandlers>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>A:/Github/angry-birds-clone-assignment-Tobes213/Build/RelWithDebInfo/RunUnitTests.lib</ImportLibrary>
-      <LinkErrorReporting>
-      </LinkErrorReporting>
+      <LinkErrorReporting></LinkErrorReporting>
       <ProgramDataBaseFile>A:/Github/angry-birds-clone-assignment-Tobes213/Build/bin/RelWithDebInfo/RunUnitTests.pdb</ProgramDataBaseFile>
-      <RandomizedBaseAddress>
-      </RandomizedBaseAddress>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -420,8 +372,16 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Bird.h" />
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Catapult.h" />
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\DynamicObject.h" />
     <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Enemy.h" />
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\GameObject.h" />
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\NonInteractable.h" />
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Pig.h" />
     <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Slingshot.h" />
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\StaticObject.h" />
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\UI.h" />
     <ClCompile Include="A:\Github\angry-birds-clone-assignment-Tobes213\test_src\RunTests.cpp" />
   </ItemGroup>
   <ItemGroup />

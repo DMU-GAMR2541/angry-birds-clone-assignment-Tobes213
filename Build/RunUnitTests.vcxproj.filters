@@ -6,10 +6,34 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Bird.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Catapult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\DynamicObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\NonInteractable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Pig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Slingshot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\StaticObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
