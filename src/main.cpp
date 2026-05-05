@@ -5,6 +5,9 @@
 #include "Pig.h"
 #include "Catapult.h"
 #include "DynamicObject.h"
+#include <list>
+#include <array>
+#include <tuple>
 
 int main() {
     // --- 1. WINDOW SETUP ---
@@ -24,6 +27,19 @@ int main() {
     Pig pig1(20.0f, 100, world, b2Vec2(200.0f / 30.0f, 300.0f / 30.0f), window, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/sprite_1.png", sf::IntRect(4, 5, 56, 47));
     Pig pig2(30.0f, 150, world, b2Vec2(400.0f / 30.0f, 200.0f / 30.0f), window, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/sprite_2.png", sf::IntRect(5, 0, 89, 100));
     Pig pig3(40.0f, 200, world, b2Vec2(600.0f / 30.0f, 100.0f / 30.0f), window, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/sprite_4.png", sf::IntRect(2, 8, 103, 98));
+
+    std::list<Bird*> birdQueue;
+
+    std::vector<std::tuple<std::string, float, float, std::string, sf::IntRect, float, float>> birdData = {
+        {"Red",   1.0f, 10.0f, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/Angry_Birds.png", sf::IntRect(906,797,45,51),   100.0f, 560.0f},
+        {"Chuck", 0.8f, 15.0f, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/Angry_Birds.png", sf::IntRect(667,879,61,63),  160.0f, 560.0f},
+        {"Bomb",  2.0f,  8.0f, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/Angry_Birds.png", sf::IntRect(408,726,65,118), 220.0f, 560.0f},
+        {"Matilda", 0.5f, 18.0f, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/Angry_Birds.png", sf::IntRect(418,638,73,128), 300.0f, 560.0f}
+    };
+
+    for (auto& [type, mass, speed, path, rect, x, y] : birdData) {
+        birdQueue.push_back(new Bird(type, mass, speed, path, rect, x, y));
+    }
 
     sf::CircleShape mouseCircle(20.0f);
     mouseCircle.setFillColor(sf::Color::Blue);
@@ -45,6 +61,20 @@ int main() {
     sf::RectangleShape sf_groundVisual(sf::Vector2f(800.0f, 20.0f));
     sf_groundVisual.setOrigin(400.0f, 10.0f);
     sf_groundVisual.setFillColor(sf::Color(34, 139, 34)); // Forest Green
+
+    struct StaticObject {
+        sf::RectangleShape shape;
+        StaticObject(float x, float y, float w, float h, sf::Color c) {
+            shape.setSize(sf::Vector2f(w, h));
+            shape.setPosition(x, y);
+            shape.setFillColor(c);
+        }
+    };
+
+    std::array<StaticObject, 2> staticObjects = { {
+        StaticObject(450.0f, 510.0f, 20.0f, 80.0f,  sf::Color(180,180,180)),
+        StaticObject(580.0f, 530.0f, 60.0f, 60.0f,  sf::Color(173,216,230))
+    } };
 
     //Setting up a wall for the ball to hit.
     b2BodyDef b2_wallDef;
@@ -111,15 +141,17 @@ int main() {
                 if (event.key.code == sf::Keyboard::P) {
                     pig1.applyImpulse(2.0f, -5.0f);
                 }
-                if (event.key.code == sf::Keyboard::Space) {                    // Reset position of the ball so that it can be fired again from its original poisition.
-                    b2_ballBody->SetTransform(b2Vec2(100.0f / SCALE, 500.0f / SCALE), 0);
-                    b2_ballBody->SetLinearVelocity(b2Vec2(0, 0));
-                    b2_ballBody->SetAngularVelocity(0);
+                if (event.key.code == sf::Keyboard::Space) {
+                    if (!birdQueue.empty()) {
+                        b2_ballBody->SetTransform(b2Vec2(100.0f / SCALE, 500.0f / SCALE), 0);
+                        b2_ballBody->SetLinearVelocity(b2Vec2(0, 0));
+                        b2_ballBody->SetAngularVelocity(0);
+                        b2_ballBody->ApplyLinearImpulse(b2Vec2(5.0f, -5.0f), b2_ballBody->GetWorldCenter(), true);
 
-                    // Apply impulse (X-axis, Y-axis) Negative Y is UP in Box2D because gravity is positive.
-                    b2_ballBody->ApplyLinearImpulse(b2Vec2(5.0f, -5.0f), b2_ballBody->GetWorldCenter(), true);
-
-                    std::cout << "Firing!!!!" << std::endl;
+                        Bird* fired = birdQueue.front();
+                        birdQueue.pop_front();
+                        delete fired;
+                    }
                 }
             }
         }
@@ -152,6 +184,12 @@ int main() {
         //Render all of the content at each frame. Remember you need to clear the screen each iteration or artefacts remain.
         window.clear(sf::Color(135, 206, 235)); // Sky Blue
 
+        for (auto it = birdQueue.begin(); it != birdQueue.end(); ++it)
+            (*it)->render(window);
+
+        for (auto it = staticObjects.begin(); it != staticObjects.end(); ++it)
+            window.draw(it->shape);
+
         pig1.render(window);
         pig2.render(window);
         pig3.render(window);
@@ -165,8 +203,29 @@ int main() {
         window.display();
     }
 
+    std::vector<DynamicObject*> mixedObjects;
+    mixedObjects.push_back(&pig1);
+    mixedObjects.push_back(&pig2);
+    mixedObjects.push_back(&pig3);
 
-    Bird redBird("Red", 1.0f, 10.0f, 100.0f, 200.0f);
+    for (auto& [type, mass, speed, path, rect, x, y] : birdData) {
+        mixedObjects.push_back(new Bird(type, mass, speed, path, rect, x, y));
+    }
+
+    for (auto it = mixedObjects.begin(); it != mixedObjects.end(); ++it) {
+        Bird* asBird = dynamic_cast<Bird*>(*it);
+        if (asBird) { asBird->render(); continue; }
+
+        Pig* asPig = dynamic_cast<Pig*>(*it);
+        if (asPig) { asPig->render(window); }
+    }
+
+    for (auto obj : mixedObjects) {
+        if (dynamic_cast<Bird*>(obj)) delete obj;
+    }
+
+
+    Bird redBird("Red", 1.0f, 10.0f, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/Angry_Birds2.png", sf::IntRect(0, 0, 80, 80), 100.0f, 200.0f);
     Pig smallPig(20.0f, 50, world, b2Vec2(300.0f / 30.0f, 400.0f / 30.0f), window, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/Pigs.png", sf::IntRect(0, 0, 120, 120));
     Catapult catapult(50.0f, 500.0f);
 
