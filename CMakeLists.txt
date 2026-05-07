@@ -81,6 +81,5 @@ target_link_libraries(RunUnitTests
 ) 
 
 add_test(NAME RunUnitTests COMMAND RunUnitTests) 
-
-# --- Housekeeping ---
+set_tests_properties(RunUnitTests PROPERTIES WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 set_property(GLOBAL PROPERTY USE_FOLDERS ON) 

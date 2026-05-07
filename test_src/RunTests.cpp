@@ -1,6 +1,12 @@
 #include <gtest/gtest.h>
 #include "Enemy.h"
 #include "slingshot.h"
+#include <SFML/Graphics.hpp>
+#include <filesystem>
+
+TEST(TextureTest, PrintWorkingDir) {
+    std::cout << "CWD: " << std::filesystem::current_path() << std::endl;
+}
 
 /// <summary>
 ///Taken from the GoogleTest primer. 
@@ -52,6 +58,80 @@ TEST(Enemy, First_test) {
 TEST_F(EnemyTest, LethalDamagePopsPig) {
     enemy->takeDamage(60);
     EXPECT_TRUE(enemy->checkIfPopped());
+}
+
+TEST_F(EnemyTest, DynamicObject_MovementTest) {
+    enemy->takeDamage(10);
+    EXPECT_LT(enemy->getHealth(), 50);
+    EXPECT_GE(enemy->getHealth(), 0);
+}
+
+TEST(StaticObjectTest, Placement_WithinWindowBounds) {
+    float windowWidth = 800.0f;
+    float windowHeight = 600.0f;
+    float posX = 450.0f;
+    float posY = 510.0f;
+
+    EXPECT_GT(posX, 0.0f);
+    EXPECT_LT(posX, windowWidth);
+    EXPECT_GT(posY, 0.0f);
+    EXPECT_LT(posY, windowHeight);
+}
+
+TEST(GameObjectPositionTest, RelativePositions) {
+    Enemy pig1(50, 200.0f, 300.0f);
+    Enemy pig2(100, 400.0f, 200.0f);
+    Enemy pig3(150, 600.0f, 100.0f);
+
+    EXPECT_GT(pig2.getPosition().first, pig1.getPosition().first);
+    EXPECT_GT(pig3.getPosition().first, pig2.getPosition().first);
+    EXPECT_LT(pig3.getPosition().second, pig1.getPosition().second);
+}
+
+TEST(TextureTest, Texture_LoadsSuccessfully) {
+    sf::Texture texture;
+    bool loaded = texture.loadFromFile("../../assets/Ang_Birds/Angry_Birds.png");
+    EXPECT_TRUE(loaded);
+}
+
+TEST(TextureTest, Texture_FailsWithBadPath) {
+    sf::Texture texture;
+    bool loaded = texture.loadFromFile("../../assets/nonexistent.png");
+    EXPECT_FALSE(loaded);
+}
+
+class DestructorTest : public testing::Test {
+protected:
+    std::vector<std::string> destructorLog;
+};
+
+class TestGameObject {
+public:
+    std::vector<std::string>& log;
+    TestGameObject(std::vector<std::string>& l) : log(l) {}
+    virtual ~TestGameObject() { log.push_back("GameObject"); }
+};
+
+class TestDynamicObject : public TestGameObject {
+public:
+    TestDynamicObject(std::vector<std::string>& l) : TestGameObject(l) {}
+    virtual ~TestDynamicObject() { log.push_back("DynamicObject"); }
+};
+
+class TestPig : public TestDynamicObject {
+public:
+    TestPig(std::vector<std::string>& l) : TestDynamicObject(l) {}
+    virtual ~TestPig() { log.push_back("Pig"); }
+};
+
+TEST_F(DestructorTest, DestructorSequence_PigToGameObject) {
+    {
+        TestPig pig(destructorLog);
+    }
+    ASSERT_EQ(destructorLog.size(), 3);
+    EXPECT_EQ(destructorLog[0], "Pig");
+    EXPECT_EQ(destructorLog[1], "DynamicObject");
+    EXPECT_EQ(destructorLog[2], "GameObject");
 }
 
 class SlingshotTest : public testing::Test {

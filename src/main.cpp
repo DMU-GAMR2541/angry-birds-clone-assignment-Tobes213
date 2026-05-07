@@ -8,6 +8,7 @@
 #include <list>
 #include <array>
 #include <tuple>
+#include <map>
 
 int main() {
     // --- 1. WINDOW SETUP ---
@@ -24,21 +25,36 @@ int main() {
     b2Vec2 b2_gravity(0.0f, 9.8f); // Earth-like gravity
     b2World world(b2_gravity);
 
-    Pig pig1(20.0f, 100, world, b2Vec2(200.0f / 30.0f, 300.0f / 30.0f), window, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/sprite_1.png", sf::IntRect(4, 5, 56, 47));
-    Pig pig2(30.0f, 150, world, b2Vec2(400.0f / 30.0f, 200.0f / 30.0f), window, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/sprite_2.png", sf::IntRect(5, 0, 89, 100));
-    Pig pig3(40.0f, 200, world, b2Vec2(600.0f / 30.0f, 100.0f / 30.0f), window, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/sprite_4.png", sf::IntRect(2, 8, 103, 98));
+    Pig pig1(20.0f, 100, world, b2Vec2(200.0f / 30.0f, 300.0f / 30.0f), window, "../assets/Ang_Birds/sprite_1.png", sf::IntRect(4, 5, 56, 47));
+    Pig pig2(30.0f, 150, world, b2Vec2(400.0f / 30.0f, 200.0f / 30.0f), window, "../assets/Ang_Birds/sprite_2.png", sf::IntRect(5, 0, 89, 100));
+    Pig pig3(40.0f, 200, world, b2Vec2(600.0f / 30.0f, 100.0f / 30.0f), window, "../assets/Ang_Birds/sprite_4.png", sf::IntRect(2, 8, 103, 98));
 
     std::list<Bird*> birdQueue;
 
     std::vector<std::tuple<std::string, float, float, std::string, sf::IntRect, float, float>> birdData = {
-        {"Red",   1.0f, 10.0f, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/Angry_Birds.png", sf::IntRect(906,797,45,51),   100.0f, 560.0f},
-        {"Chuck", 0.8f, 15.0f, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/Angry_Birds.png", sf::IntRect(667,879,61,63),  160.0f, 560.0f},
-        {"Bomb",  2.0f,  8.0f, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/Angry_Birds.png", sf::IntRect(408,726,65,118), 220.0f, 560.0f},
-        {"Matilda", 0.5f, 18.0f, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/Angry_Birds.png", sf::IntRect(418,638,73,128), 300.0f, 560.0f}
+        {"Red",   1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(906,797,45,51),   100.0f, 560.0f},
+        {"Chuck", 0.8f, 15.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(667,879,61,63),  160.0f, 560.0f},
+        {"Bomb",  2.0f,  8.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(408,726,65,118), 220.0f, 560.0f},
+        {"Matilda", 0.5f, 18.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(418,638,73,128), 300.0f, 560.0f}
     };
 
     for (auto& [type, mass, speed, path, rect, x, y] : birdData) {
         birdQueue.push_back(new Bird(type, mass, speed, path, rect, x, y));
+    }
+
+    std::multimap<std::string, DynamicObject*> gameObjects;
+
+    gameObjects.insert({ "pig", &pig1 });
+    gameObjects.insert({ "pig", &pig2 });
+    gameObjects.insert({ "pig", &pig3 });
+
+    for (auto& [type, mass, speed, path, rect, x, y] : birdData) {
+        gameObjects.insert({ "bird", birdQueue.back() });
+    }
+
+    auto pigs = gameObjects.equal_range("pig");
+    for (auto it = pigs.first; it != pigs.second; ++it) {
+        it->second->update();
     }
 
     sf::CircleShape mouseCircle(20.0f);
@@ -129,6 +145,50 @@ int main() {
     sf_ballVisual.setOrigin(15.0f, 15.0f);
     sf_ballVisual.setFillColor(sf::Color::Yellow);
 
+    sf::Font font;
+    if (!font.loadFromFile("../assets/fonts/angry-birds.ttf"))
+        std::cout << "Failed to load font" << std::endl;
+
+    int pigCount = 3;
+
+    sf::Text pigText;
+    pigText.setFont(font);
+    pigText.setString("Pigs: " + std::to_string(pigCount));
+    pigText.setCharacterSize(24);
+    pigText.setFillColor(sf::Color::White);
+    pigText.setPosition(10.0f, 10.0f);
+
+    sf::Texture backgroundTexture;
+    if (!backgroundTexture.loadFromFile("../assets/Ang_Birds/Backgrounds.png"))
+        std::cout << "Failed to load background" << std::endl;
+
+    sf::Texture skyTex, groundTex, grassTex, treesTex, soilTex;
+    skyTex.loadFromFile("../assets/Ang_Birds/Sky.png");
+    groundTex.loadFromFile("../assets/Ang_Birds/Ground.png");
+    grassTex.loadFromFile("../assets/Ang_Birds/Grass.png");
+    soilTex.loadFromFile("../assets/Ang_Birds/Soil.png");
+
+    sf::Sprite skySpr, groundSpr, grassSpr, treesSpr, soilSpr;
+
+    skySpr.setTexture(skyTex);
+    skySpr.setScale(800.0f / skyTex.getSize().x, 600.0f / skyTex.getSize().y);
+
+    groundSpr.setTexture(groundTex);
+    groundSpr.setScale(800.0f / groundTex.getSize().x, 50.0f / groundTex.getSize().y);
+    groundSpr.setPosition(0.0f, 550.0f);
+
+    grassSpr.setTexture(grassTex);
+    grassSpr.setScale(800.0f / grassTex.getSize().x, 40.0f / grassTex.getSize().y);
+    grassSpr.setPosition(0.0f, 510.0f);
+
+    soilSpr.setTexture(soilTex);
+    soilSpr.setScale(800.0f / soilTex.getSize().x, 30.0f / soilTex.getSize().y);
+    soilSpr.setPosition(0.0f, 570.0f);
+
+  
+
+    bool showDecorations = false;
+
     // --- 7. MAIN LOOP ---
     while (window.isOpen()) {
         sf::Event event;
@@ -140,6 +200,15 @@ int main() {
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == sf::Keyboard::P) {
                     pig1.applyImpulse(2.0f, -5.0f);
+                }
+                if (event.key.code == sf::Keyboard::D) {
+                    showDecorations = !showDecorations;
+                }
+                if (event.key.code == sf::Keyboard::K) {
+                    if (pigCount > 0) {
+                        pigCount--;
+                        pigText.setString("Pigs: " + std::to_string(pigCount));
+                    }
                 }
                 if (event.key.code == sf::Keyboard::Space) {
                     if (!birdQueue.empty()) {
@@ -183,6 +252,15 @@ int main() {
 
         //Render all of the content at each frame. Remember you need to clear the screen each iteration or artefacts remain.
         window.clear(sf::Color(135, 206, 235)); // Sky Blue
+        if (showDecorations) {
+            window.draw(skySpr);
+            window.draw(treesSpr);
+            window.draw(grassSpr);
+            window.draw(groundSpr);
+            window.draw(soilSpr);
+        }
+
+        window.draw(pigText);
 
         for (auto it = birdQueue.begin(); it != birdQueue.end(); ++it)
             (*it)->render(window);
@@ -225,8 +303,8 @@ int main() {
     }
 
 
-    Bird redBird("Red", 1.0f, 10.0f, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/Angry_Birds2.png", sf::IntRect(0, 0, 80, 80), 100.0f, 200.0f);
-    Pig smallPig(20.0f, 50, world, b2Vec2(300.0f / 30.0f, 400.0f / 30.0f), window, "A:/Github/angry-birds-clone-assignment-Tobes213/assets/Ang_Birds/Pigs.png", sf::IntRect(0, 0, 120, 120));
+    Bird redBird("Red", 1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(0, 0, 80, 80), 100.0f, 200.0f);
+    Pig smallPig(20.0f, 50, world, b2Vec2(300.0f / 30.0f, 400.0f / 30.0f), window, "../ assets / Ang_Birds / Pigs.png", sf::IntRect(0, 0, 120, 120));
     Catapult catapult(50.0f, 500.0f);
 
     DynamicObject* obj1 = &redBird;
