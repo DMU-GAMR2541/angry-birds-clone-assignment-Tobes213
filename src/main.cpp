@@ -35,11 +35,13 @@ int main() {
         {"Red",   1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(906,797,45,51),   100.0f, 560.0f},
         {"Chuck", 0.8f, 15.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(667,879,61,63),  160.0f, 560.0f},
         {"Bomb",  2.0f,  8.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(408,726,65,118), 220.0f, 560.0f},
-        {"Matilda", 0.5f, 18.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(418,638,73,128), 300.0f, 560.0f}
+        {"Matilda", 0.5f, 18.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(418,638,73,85), 300.0f, 560.0f}
     };
 
     for (auto& [type, mass, speed, path, rect, x, y] : birdData) {
-        birdQueue.push_back(new Bird(type, mass, speed, path, rect, x, y));
+        Bird* b = new Bird(type, mass, speed, path, rect, x, y);
+        b->initPhysics(world);
+        birdQueue.push_back(b);
     }
 
     std::multimap<std::string, DynamicObject*> gameObjects;
@@ -189,6 +191,8 @@ int main() {
 
     bool showDecorations = false;
 
+    Bird* firedBird = nullptr;
+
     // --- 7. MAIN LOOP ---
     while (window.isOpen()) {
         sf::Event event;
@@ -212,14 +216,10 @@ int main() {
                 }
                 if (event.key.code == sf::Keyboard::Space) {
                     if (!birdQueue.empty()) {
-                        b2_ballBody->SetTransform(b2Vec2(100.0f / SCALE, 500.0f / SCALE), 0);
-                        b2_ballBody->SetLinearVelocity(b2Vec2(0, 0));
-                        b2_ballBody->SetAngularVelocity(0);
-                        b2_ballBody->ApplyLinearImpulse(b2Vec2(5.0f, -5.0f), b2_ballBody->GetWorldCenter(), true);
-
-                        Bird* fired = birdQueue.front();
+                        if (firedBird) delete firedBird;
+                        firedBird = birdQueue.front();
                         birdQueue.pop_front();
-                        delete fired;
+                        firedBird->fire(5.0f, -5.0f);
                     }
                 }
             }
@@ -231,6 +231,11 @@ int main() {
         pig1.update();
         pig2.update();
         pig3.update();
+
+        for (auto it = birdQueue.begin(); it != birdQueue.end(); ++it)
+            (*it)->update();
+
+        if (firedBird) firedBird->update();
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
@@ -265,6 +270,8 @@ int main() {
         for (auto it = birdQueue.begin(); it != birdQueue.end(); ++it)
             (*it)->render(window);
 
+        if (firedBird) firedBird->render(window);
+
         for (auto it = staticObjects.begin(); it != staticObjects.end(); ++it)
             window.draw(it->shape);
 
@@ -276,8 +283,6 @@ int main() {
         window.draw(sf_groundVisual);
         window.draw(sf_wallVisual);
         window.draw(sf_plankVisual);
-        window.draw(sf_ballVisual);
-
         window.display();
     }
 
