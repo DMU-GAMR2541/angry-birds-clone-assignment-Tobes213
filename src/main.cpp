@@ -18,7 +18,7 @@ int main() {
     //Box2D works in meters. SFML works in pixels.
     const float SCALE = 30.0f;
 
-    //Can set a definition for PI.
+    //Can set a definition for PI.catapult.update();
     const float PI = 3.1415927;
 
     //setup world.
@@ -34,14 +34,19 @@ int main() {
     std::vector<std::tuple<std::string, float, float, std::string, sf::IntRect, float, float>> birdData = {
         {"Red",   1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(906,797,45,51),   100.0f, 560.0f},
         {"Chuck", 0.8f, 15.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(667,879,61,63),  160.0f, 560.0f},
-        {"Bomb",  2.0f,  8.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(408,726,65,118), 220.0f, 560.0f},
+        {"Bomb",  2.0f,  8.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(408,726,65,80), 220.0f, 560.0f},
         {"Matilda", 0.5f, 18.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(418,638,73,85), 300.0f, 560.0f}
     };
 
     for (auto& [type, mass, speed, path, rect, x, y] : birdData) {
         Bird* b = new Bird(type, mass, speed, path, rect, x, y);
-        b->initPhysics(world);
         birdQueue.push_back(b);
+    }
+
+    Catapult catapult(150.0f, 570.0f, world, 1.0f);
+    if (!birdQueue.empty()) {
+        catapult.loadBird(birdQueue.front());
+        birdQueue.pop_front();
     }
 
     std::multimap<std::string, DynamicObject*> gameObjects;
@@ -58,10 +63,6 @@ int main() {
     for (auto it = pigs.first; it != pigs.second; ++it) {
         it->second->update();
     }
-
-    sf::CircleShape mouseCircle(20.0f);
-    mouseCircle.setFillColor(sf::Color::Blue);
-    mouseCircle.setOrigin(20.0f, 20.0f);
 
     //Setup ground for the circle to move / bounce on.
     //Needs to have a body definition and a body. We use a raw pointer for the b2Body as Box2d does the management itself.
@@ -143,9 +144,11 @@ int main() {
     b2_ballFixture.restitution = 0.5f; // Bounciness
     b2_ballBody->CreateFixture(&b2_ballFixture);
 
-    sf::CircleShape sf_ballVisual(15.0f);
-    sf_ballVisual.setOrigin(15.0f, 15.0f);
-    sf_ballVisual.setFillColor(sf::Color::Yellow);
+    sf::CircleShape mouseCircle(20.0f);
+    mouseCircle.setFillColor(sf::Color::Transparent);
+    mouseCircle.setOutlineColor(sf::Color::Blue);
+    mouseCircle.setOutlineThickness(2.0f);
+    mouseCircle.setOrigin(20.0f, 20.0f);
 
     sf::Font font;
     if (!font.loadFromFile("../assets/fonts/angry-birds.ttf"))
@@ -191,8 +194,6 @@ int main() {
 
     bool showDecorations = false;
 
-    Bird* firedBird = nullptr;
-
     // --- 7. MAIN LOOP ---
     while (window.isOpen()) {
         sf::Event event;
@@ -216,11 +217,24 @@ int main() {
                 }
                 if (event.key.code == sf::Keyboard::Space) {
                     if (!birdQueue.empty()) {
-                        if (firedBird) delete firedBird;
-                        firedBird = birdQueue.front();
+                        catapult.resetFired();
+                        catapult.loadBird(birdQueue.front());
                         birdQueue.pop_front();
-                        firedBird->fire(5.0f, -5.0f);
                     }
+                }
+            }
+
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    catapult.handleMousePress(sf::Vector2f(event.mouseButton.x, event.mouseButton.y));
+                }
+            }
+            if (event.type == sf::Event::MouseMoved) {
+                catapult.handleMouseMove(sf::Vector2f(event.mouseMove.x, event.mouseMove.y));
+            }
+            if (event.type == sf::Event::MouseButtonReleased) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    catapult.handleMouseRelease(sf::Vector2f(event.mouseButton.x, event.mouseButton.y));
                 }
             }
         }
@@ -235,7 +249,9 @@ int main() {
         for (auto it = birdQueue.begin(); it != birdQueue.end(); ++it)
             (*it)->update();
 
-        if (firedBird) firedBird->update();
+        catapult.update();
+        if (catapult.isFired() && catapult.getLoadedBird())
+            catapult.getLoadedBird()->update();
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
@@ -243,9 +259,6 @@ int main() {
         }
 
         //All of the visuals needs to be synced with the physics.
-
-        sf_ballVisual.setPosition(b2_ballBody->GetPosition().x * SCALE, b2_ballBody->GetPosition().y * SCALE);
-        sf_ballVisual.setRotation(b2_ballBody->GetAngle() * (180.0f / PI));
 
         //Static objects usually don't move, but we set the position once.
         sf_groundVisual.setPosition(b2_groundBody->GetPosition().x * SCALE, b2_groundBody->GetPosition().y * SCALE);
@@ -270,7 +283,7 @@ int main() {
         for (auto it = birdQueue.begin(); it != birdQueue.end(); ++it)
             (*it)->render(window);
 
-        if (firedBird) firedBird->render(window);
+        catapult.render(window);
 
         for (auto it = staticObjects.begin(); it != staticObjects.end(); ++it)
             window.draw(it->shape);
@@ -310,7 +323,6 @@ int main() {
 
     Bird redBird("Red", 1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(0, 0, 80, 80), 100.0f, 200.0f);
     Pig smallPig(20.0f, 50, world, b2Vec2(300.0f / 30.0f, 400.0f / 30.0f), window, "../ assets / Ang_Birds / Pigs.png", sf::IntRect(0, 0, 120, 120));
-    Catapult catapult(50.0f, 500.0f);
 
     DynamicObject* obj1 = &redBird;
     DynamicObject* obj2 = &smallPig;

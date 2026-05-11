@@ -60,6 +60,20 @@ public:
             b2_body->ApplyLinearImpulse(b2Vec2(forceX, forceY), b2_body->GetWorldCenter(), true);
     }
 
+    void setPosition(float x, float y) {
+        if (b2_body)
+            b2_body->SetTransform(b2Vec2(x / SCALE, y / SCALE), 0);
+        sp_rendered.setPosition(x, y);
+    }
+
+    void setStatic(bool isStatic) {
+        if (b2_body) {
+            b2_body->SetType(isStatic ? b2_staticBody : b2_dynamicBody);
+            b2_body->SetLinearVelocity(b2Vec2(0, 0));
+            b2_body->SetAngularVelocity(0);
+        }
+    }
+
     void render() override {
         std::cout << "Bird render: " << str_birdType << std::endl;
     }
@@ -72,6 +86,7 @@ public:
 
     float getMass() const { return f_mass; }
     float getSpeed() const { return f_speed; }
+    bool hasPhysics() const { return b2_body != nullptr; }
 
     virtual ~Bird() {
         std::cout << "Bird destroyed" << std::endl;
