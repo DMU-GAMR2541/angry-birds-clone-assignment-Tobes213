@@ -77,6 +77,8 @@ public:
         b2_body->ApplyLinearImpulse(b2Vec2(x, y), b2_body->GetWorldCenter(), true);
     }
 
+    b2Body* getBody() { return b2_body; }
+
     std::string getType() const override { return "Pig"; }
     bool isDestroyed() const { return b_isDestroyed; }
 

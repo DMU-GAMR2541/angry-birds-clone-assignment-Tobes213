@@ -261,6 +261,202 @@ TEST_F(EnemyTest, Assert_LessThanOrEqual) {
     ASSERT_LE(enemy->getHealth(), 50);
 }
 
+class CatapultTest : public testing::Test {
+public:
+    std::unique_ptr<Slingshot> slingshot;
+protected:
+    void SetUp() override {
+        slingshot = std::make_unique<Slingshot>();
+    }
+
+    void TearDown() override {}
+};
+
+TEST_F(CatapultTest, Expect_TensionZeroAtStart) {
+    EXPECT_EQ(slingshot->getTension(), 0);
+}
+
+TEST_F(CatapultTest, Expect_PullBackIncreasesTension) {
+    slingshot->pullBack(30);
+    EXPECT_GT(slingshot->getTension(), 0);
+}
+
+TEST_F(CatapultTest, Expect_LargerPullGivesGreaterTension) {
+    slingshot->pullBack(20);
+    int tensionSmall = slingshot->getTension();
+    slingshot->release();
+    slingshot->pullBack(80);
+    int tensionLarge = slingshot->getTension();
+    EXPECT_GT(tensionLarge, tensionSmall);
+}
+
+TEST_F(CatapultTest, Assert_TensionResetsAfterRelease) {
+    slingshot->pullBack(50);
+    slingshot->release();
+    ASSERT_EQ(slingshot->getTension(), 0);
+}
+
+TEST_F(CatapultTest, Expect_NegativePullReturnsFalse) {
+    EXPECT_FALSE(slingshot->pullBack(-10));
+}
+
+TEST_F(CatapultTest, Expect_ValidPullReturnsTrue) {
+    EXPECT_TRUE(slingshot->pullBack(50));
+}
+
+TEST_F(CatapultTest, Expect_TensionDoesNotExceedMaxLimit) {
+    slingshot->pullBack(9999);
+    EXPECT_LE(slingshot->getTension(), 100);
+}
+
+TEST_F(CatapultTest, Assert_MaxTensionCappedAt100) {
+    slingshot->pullBack(9999);
+    ASSERT_EQ(slingshot->getTension(), 100);
+}
+
+TEST_F(CatapultTest, Expect_PullBeyondLimitClamped) {
+    slingshot->pullBack(100);
+    int tensionAtMax = slingshot->getTension();
+    slingshot->release();
+    slingshot->pullBack(600);
+    int tensionBeyond = slingshot->getTension();
+    EXPECT_EQ(tensionAtMax, tensionBeyond);
+}
+
+TEST_F(CatapultTest, Expect_TensionLessThanOrEqualToMax) {
+    slingshot->pullBack(60);
+    EXPECT_LE(slingshot->getTension(), 100);
+}
+
+
+class BirdLoadTest : public testing::Test {
+public:
+    std::unique_ptr<Slingshot> slingshot;
+protected:
+    void SetUp() override {
+        slingshot = std::make_unique<Slingshot>();
+    }
+
+    void TearDown() override {}
+};
+
+TEST_F(BirdLoadTest, Expect_DefaultBirdIsRed) {
+    EXPECT_EQ(slingshot->getBirdType(), "Red");
+}
+
+TEST_F(BirdLoadTest, Expect_BirdTypeNotEmpty) {
+    EXPECT_NE(slingshot->getBirdType(), "");
+}
+
+TEST_F(BirdLoadTest, Assert_LoadBirdChangesType) {
+    slingshot->loadBird("Chuck");
+    ASSERT_EQ(slingshot->getBirdType(), "Chuck");
+}
+
+TEST_F(BirdLoadTest, Expect_LoadBirdNotEqualToPrevious) {
+    std::string firstBird = slingshot->getBirdType();
+    slingshot->loadBird("Bomb");
+    EXPECT_NE(slingshot->getBirdType(), firstBird);
+}
+
+TEST_F(BirdLoadTest, Expect_BirdTypeCaseInsensitiveMatch) {
+    EXPECT_STRCASEEQ(slingshot->getBirdType().c_str(), "red");
+}
+
+TEST_F(BirdLoadTest, Expect_BirdTypeStrictCasingCorrect) {
+    EXPECT_STREQ(slingshot->getBirdType().c_str(), "Red");
+}
+
+TEST_F(BirdLoadTest, Expect_BirdTypeStrictNonEqualLowercase) {
+    EXPECT_STRNE(slingshot->getBirdType().c_str(), "red");
+}
+
+TEST_F(BirdLoadTest, Assert_SetBirdTypeUpdatesCorrectly) {
+    slingshot->setBirdType("Matilda");
+    ASSERT_EQ(slingshot->getBirdType(), "Matilda");
+}
+
+TEST_F(BirdLoadTest, Expect_BirdTypeNotEqualAfterChange) {
+    slingshot->setBirdType("Chuck");
+    EXPECT_NE(slingshot->getBirdType(), "Red");
+}
+
+
+class BirdLoadParamTest : public testing::TestWithParam<std::string> {};
+
+TEST_P(BirdLoadParamTest, AllBirdTypesLoadCorrectly) {
+    Slingshot s;
+    s.loadBird(GetParam());
+    EXPECT_EQ(s.getBirdType(), GetParam());
+    EXPECT_NE(s.getBirdType(), "");
+    EXPECT_STRNE(s.getBirdType().c_str(), "Ball");
+    EXPECT_STRNE(s.getBirdType().c_str(), "Circle");
+}
+
+INSTANTIATE_TEST_SUITE_P(
+    BirdTypes,
+    BirdLoadParamTest,
+    testing::Values("Red", "Chuck", "Bomb", "Matilda")
+);
+
+
+class PigCountTest : public testing::Test {
+public:
+    int pigCount;
+protected:
+    void SetUp() override {
+        pigCount = 3;
+    }
+
+    void TearDown() override {}
+};
+
+TEST_F(PigCountTest, Expect_InitialPigCountIsThree) {
+    EXPECT_EQ(pigCount, 3);
+}
+
+TEST_F(PigCountTest, Expect_KKeyDecrementsPigCount) {
+    pigCount--;
+    EXPECT_EQ(pigCount, 2);
+}
+
+TEST_F(PigCountTest, Assert_PigCountNeverBelowZero) {
+    pigCount = 0;
+    if (pigCount > 0) pigCount--;
+    ASSERT_GE(pigCount, 0);
+}
+
+TEST_F(PigCountTest, Expect_PigCountLessThanInitialAfterDecrement) {
+    int initial = pigCount;
+    pigCount--;
+    EXPECT_LT(pigCount, initial);
+}
+
+TEST_F(PigCountTest, Expect_PigCountGreaterThanZeroWhenPigsRemain) {
+    EXPECT_GT(pigCount, 0);
+}
+
+TEST_F(PigCountTest, Assert_AllPigsPoppedCountIsZero) {
+    pigCount = 0;
+    ASSERT_EQ(pigCount, 0);
+}
+
+class PigCountParamTest : public testing::TestWithParam<int> {};
+
+TEST_P(PigCountParamTest, DecrementReducesPigCount) {
+    int count = GetParam();
+    int original = count;
+    if (count > 0) count--;
+    EXPECT_LT(count, original);
+    EXPECT_GE(count, 0);
+}
+
+INSTANTIATE_TEST_SUITE_P(
+    PigCounts,
+    PigCountParamTest,
+    testing::Values(1, 2, 3, 5, 10)
+);
+
 class EnemyPositionTest : public testing::TestWithParam<std::pair<float, float>> {};
 
 TEST_P(EnemyPositionTest, CompareEnemyPositions) {

@@ -3,8 +3,11 @@
 #include <iostream>
 #include "Bird.h"
 #include "Pig.h"
+#include <Enemy.h>
 #include "Catapult.h"
 #include "DynamicObject.h"
+#include "ContactListener.h"
+#include <NonInteractable.h>
 #include <list>
 #include <array>
 #include <tuple>
@@ -25,17 +28,24 @@ int main() {
     b2Vec2 b2_gravity(0.0f, 9.8f); // Earth-like gravity
     b2World world(b2_gravity);
 
+    ContactListener contactListener;
+    world.SetContactListener(&contactListener);
+
     Pig pig1(20.0f, 100, world, b2Vec2(200.0f / 30.0f, 300.0f / 30.0f), window, "../assets/Ang_Birds/sprite_1.png", sf::IntRect(4, 5, 56, 47));
     Pig pig2(30.0f, 150, world, b2Vec2(400.0f / 30.0f, 200.0f / 30.0f), window, "../assets/Ang_Birds/sprite_2.png", sf::IntRect(5, 0, 89, 100));
     Pig pig3(40.0f, 200, world, b2Vec2(600.0f / 30.0f, 100.0f / 30.0f), window, "../assets/Ang_Birds/sprite_4.png", sf::IntRect(2, 8, 103, 98));
+
+    pig1.getBody()->GetUserData().pointer = 3;
+    pig2.getBody()->GetUserData().pointer = 4;
+    pig3.getBody()->GetUserData().pointer = 5;
 
     std::list<Bird*> birdQueue;
 
     std::vector<std::tuple<std::string, float, float, std::string, sf::IntRect, float, float>> birdData = {
         {"Red",   1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(906,797,45,51),   100.0f, 560.0f},
-        {"Chuck", 0.8f, 15.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(667,879,61,63),  160.0f, 560.0f},
-        {"Bomb",  2.0f,  8.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(408,726,65,80), 220.0f, 560.0f},
-        {"Matilda", 0.5f, 18.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(418,638,73,85), 300.0f, 560.0f}
+        {"Chuck", 1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(667,879,61,63),  160.0f, 560.0f},
+        {"Bomb",  1.0f,  10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(408,726,65,80), 220.0f, 560.0f},
+        {"Matilda", 1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(418,638,73,85), 300.0f, 560.0f}
     };
 
     for (auto& [type, mass, speed, path, rect, x, y] : birdData) {
@@ -81,14 +91,10 @@ int main() {
     sf_groundVisual.setOrigin(400.0f, 10.0f);
     sf_groundVisual.setFillColor(sf::Color(34, 139, 34)); // Forest Green
 
-    struct StaticObject {
-        sf::RectangleShape shape;
-        StaticObject(float x, float y, float w, float h, sf::Color c) {
-            shape.setSize(sf::Vector2f(w, h));
-            shape.setPosition(x, y);
-            shape.setFillColor(c);
-        }
-    };
+    std::array<NonInteractable, 2> staticObjects = { {
+    NonInteractable("Post", 450.0f, 510.0f, 20.0f, 80.0f, sf::Color(180,180,180)),
+    NonInteractable("Block", 580.0f, 530.0f, 60.0f, 60.0f, sf::Color(173,216,230))
+} }; 
 
     std::array<StaticObject, 2> staticObjects = { {
         StaticObject(450.0f, 510.0f, 20.0f, 80.0f,  sf::Color(180,180,180)),
@@ -206,15 +212,18 @@ int main() {
                 if (event.key.code == sf::Keyboard::P) {
                     pig1.applyImpulse(2.0f, -5.0f);
                 }
+
                 if (event.key.code == sf::Keyboard::D) {
                     showDecorations = !showDecorations;
                 }
+
                 if (event.key.code == sf::Keyboard::K) {
                     if (pigCount > 0) {
                         pigCount--;
                         pigText.setString("Pigs: " + std::to_string(pigCount));
                     }
                 }
+
                 if (event.key.code == sf::Keyboard::Space) {
                     if (!birdQueue.empty()) {
                         catapult.resetFired();
@@ -228,10 +237,17 @@ int main() {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     catapult.handleMousePress(sf::Vector2f(event.mouseButton.x, event.mouseButton.y));
                 }
+
+                if (event.mouseButton.button == sf::Mouse::Right) {
+                    if (catapult.isFired() && catapult.getLoadedBird())
+                        catapult.getLoadedBird()->activate({ pig1.getBody(), pig2.getBody(), pig3.getBody() });
+                }
             }
+
             if (event.type == sf::Event::MouseMoved) {
                 catapult.handleMouseMove(sf::Vector2f(event.mouseMove.x, event.mouseMove.y));
             }
+
             if (event.type == sf::Event::MouseButtonReleased) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     catapult.handleMouseRelease(sf::Vector2f(event.mouseButton.x, event.mouseButton.y));
@@ -242,9 +258,23 @@ int main() {
         // Update Physics
         world.Step(1.0f / 60.0f, 8, 3);
 
-        pig1.update();
-        pig2.update();
-        pig3.update();
+        auto hits = contactListener.getPointer();
+        if (hits.count(3) && !pig1.isDestroyed()) pig1.takeDamage(100);
+        if (hits.count(4) && !pig2.isDestroyed()) pig2.takeDamage(75);
+        if (hits.count(5) && !pig3.isDestroyed()) pig3.takeDamage(100);
+
+        if (hits.count(999) || pig1.getBody()->GetUserData().pointer == 999) pig1.takeDamage(1000);
+        if (pig2.getBody()->GetUserData().pointer == 999) pig2.takeDamage(1000);
+        if (pig3.getBody()->GetUserData().pointer == 999) pig3.takeDamage(1000);
+
+        contactListener.s_ptr.clear();
+
+        if (!pig1.isDestroyed()) pig1.update();
+        if (!pig2.isDestroyed()) pig2.update();
+        if (!pig3.isDestroyed()) pig3.update();
+
+        int livePigs = (!pig1.isDestroyed()) + (!pig2.isDestroyed()) + (!pig3.isDestroyed());
+        pigText.setString("Pigs: " + std::to_string(livePigs));
 
         for (auto it = birdQueue.begin(); it != birdQueue.end(); ++it)
             (*it)->update();
@@ -286,11 +316,11 @@ int main() {
         catapult.render(window);
 
         for (auto it = staticObjects.begin(); it != staticObjects.end(); ++it)
-            window.draw(it->shape);
+            it->render(window);
 
-        pig1.render(window);
-        pig2.render(window);
-        pig3.render(window);
+        if (!pig1.isDestroyed()) pig1.render(window);
+        if (!pig2.isDestroyed()) pig2.render(window);
+        if (!pig3.isDestroyed()) pig3.render(window);
         window.draw(mouseCircle); 
 
         window.draw(sf_groundVisual);
@@ -336,6 +366,21 @@ int main() {
     std::cout << "\n--- Upcast to GameObject ---" << std::endl;
     GameObject* gameObj1 = &redBird;
     std::cout << "Type: " << gameObj1->getType() << std::endl;
+
+
+    std::cout << "\n--- Smart Pointer Demo ---" << std::endl;
+    std::unique_ptr<Bird> smartBird = std::make_unique<Bird>(
+        "Red", 1.0f, 10.0f,
+        "../assets/Ang_Birds/Angry_Birds.png",
+        sf::IntRect(906, 797, 45, 51),
+        100.0f, 200.0f
+    );
+    std::cout << "Smart Bird type: " << smartBird->getType() << std::endl;
+    std::cout << "Smart pointer automatically cleaned up when out of scope" << std::endl;
+
+    std::shared_ptr<Enemy> smartEnemy = std::make_shared<Enemy>(100);
+    std::cout << "Smart Enemy health: " << smartEnemy->getHealth() << std::endl;
+    std::cout << "Shared pointer reference count: " << smartEnemy.use_count() << std::endl;
 
     return 0;
 }

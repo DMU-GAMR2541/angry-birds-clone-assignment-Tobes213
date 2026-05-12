@@ -22,7 +22,7 @@ private:
 public:
     Catapult(float posX, float posY, b2World& world, float speedMultiplier = 1.0f)
         : DynamicObject(posX, posY), f_speedMultiplier(speedMultiplier), b2_world(&world) {
-        v_forkRestPos = sf::Vector2f(posX, posY - 80.0f);
+        v_forkRestPos = sf::Vector2f(posX + 5.0f, posY - 70.0f);
         v_launchPos = v_forkRestPos;
         sf::Color woodColour(101, 67, 33);
         sh_pole.setSize(sf::Vector2f(10.0f, 80.0f));
@@ -49,13 +49,16 @@ public:
     if (bird && b2_world) {
         if (!bird->hasPhysics())
             bird->initPhysics(*b2_world);
+        bird->getBody()->GetUserData().pointer = 100;
         bird->setStatic(true);
         bird->setPosition(v_forkRestPos.x, v_forkRestPos.y);
         std::cout << "Bird loaded: " << bird->getType() << std::endl;
+        bird->reset();
     }
 }
 
     void handleMousePress(sf::Vector2f mousePos) {
+        if (b_isFired) return;
         float dist = std::sqrt(std::pow(mousePos.x - v_launchPos.x, 2) +
             std::pow(mousePos.y - v_launchPos.y, 2));
         if (dist < 60.0f) {
