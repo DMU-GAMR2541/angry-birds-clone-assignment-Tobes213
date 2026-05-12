@@ -8,7 +8,7 @@ protected:
 
 public:
     StaticObject(float posX = 0.0f, float posY = 0.0f)
-        : f_posX(posX), f_posY(posY) {}
+    : f_posX(posX), f_posY(posY) {}
 
 
     virtual void update() = 0;

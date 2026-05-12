@@ -31,13 +31,7 @@ public:
     int getHealth() const { return i_health; }
     bool checkIfPopped() const { return b_isDestroyed; }
 
-    void setHealth(int health) {
-        i_health = health;
-        std::cout << "Health set to: " << health << std::endl;
-    }
-
     std::pair<float, float> getPosition() const {
-        std::cout << "Position: (" << f_posX << ", " << f_posY << ")" << std::endl;
         return { f_posX, f_posY };
     }
 };

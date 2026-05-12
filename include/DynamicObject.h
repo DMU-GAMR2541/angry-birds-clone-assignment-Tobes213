@@ -7,6 +7,7 @@ protected:
     float f_posY;
     float f_velocityX;
     float f_velocityY;
+    
 
 public:
     DynamicObject(float posX = 0.0f, float posY = 0.0f)
@@ -15,9 +16,6 @@ public:
     virtual void update() = 0;
     virtual void render() = 0;
     virtual std::string getType() const = 0;
-
-    float getPosX() const { return f_posX; }
-    float getPosY() const { return f_posY; }
 
     virtual ~DynamicObject() {
         std::cout << "DynamicObject destroyed" << std::endl;

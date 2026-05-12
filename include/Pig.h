@@ -12,7 +12,6 @@ protected:
     sf::Sprite sp_rendered;
     sf::Texture sf_tex;
 
-    b2Vec2 b2_pos;
     b2BodyDef b2_bodyDef;
     b2FixtureDef b2_fixtureDef;
     b2Body* b2_body;
@@ -21,7 +20,7 @@ protected:
     const float SCALE = 30.0f;
 
 public:
-    Pig(float size, int health, b2World& b2_world, b2Vec2 b2_posIn, sf::RenderWindow& sf_window, std::string str_SpriteLocation, sf::IntRect spriteRect = sf::IntRect(0, 0, 120, 120))
+    Pig(float size, int health, b2World& b2_world, b2Vec2 b2_posIn, std::string str_SpriteLocation, sf::IntRect spriteRect = sf::IntRect(0, 0, 120, 120))
         : DynamicObject(b2_posIn.x, b2_posIn.y), f_size(size), i_health(health), b_isDestroyed(false) {
 
         if (!sf_tex.loadFromFile(str_SpriteLocation)) {

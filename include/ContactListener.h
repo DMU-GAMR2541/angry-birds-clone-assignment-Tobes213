@@ -3,7 +3,6 @@
 #include "DynamicObject.h"
 #include "box2d/box2d.h"
 #include <iostream>
-#include <list>
 #include <set>
 /// \brief Custom contact listener to handle collision events in Box2D. Overrides the default contact listener to provide custom behaviour when collisions occur.
 

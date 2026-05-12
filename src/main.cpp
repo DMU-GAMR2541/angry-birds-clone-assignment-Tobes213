@@ -31,9 +31,9 @@ int main() {
     ContactListener contactListener;
     world.SetContactListener(&contactListener);
 
-    Pig pig1(20.0f, 100, world, b2Vec2(200.0f / 30.0f, 300.0f / 30.0f), window, "../assets/Ang_Birds/sprite_1.png", sf::IntRect(4, 5, 56, 47));
-    Pig pig2(30.0f, 150, world, b2Vec2(400.0f / 30.0f, 200.0f / 30.0f), window, "../assets/Ang_Birds/sprite_2.png", sf::IntRect(5, 0, 89, 100));
-    Pig pig3(40.0f, 200, world, b2Vec2(600.0f / 30.0f, 100.0f / 30.0f), window, "../assets/Ang_Birds/sprite_4.png", sf::IntRect(2, 8, 103, 98));
+    Pig pig1(20.0f, 100, world, b2Vec2(200.0f / 30.0f, 300.0f / 30.0f), "../assets/Ang_Birds/sprite_1.png", sf::IntRect(4, 5, 56, 47));
+    Pig pig2(30.0f, 150, world, b2Vec2(400.0f / 30.0f, 200.0f / 30.0f), "../assets/Ang_Birds/sprite_2.png", sf::IntRect(5, 0, 89, 100));
+    Pig pig3(40.0f, 200, world, b2Vec2(600.0f / 30.0f, 100.0f / 30.0f), "../assets/Ang_Birds/sprite_4.png", sf::IntRect(2, 8, 103, 98));
 
     pig1.getBody()->GetUserData().pointer = 3;
     pig2.getBody()->GetUserData().pointer = 4;
@@ -94,12 +94,8 @@ int main() {
     std::array<NonInteractable, 2> staticObjects = { {
     NonInteractable("Post", 450.0f, 510.0f, 20.0f, 80.0f, sf::Color(180,180,180)),
     NonInteractable("Block", 580.0f, 530.0f, 60.0f, 60.0f, sf::Color(173,216,230))
-} }; 
+}   }; 
 
-    std::array<StaticObject, 2> staticObjects = { {
-        StaticObject(450.0f, 510.0f, 20.0f, 80.0f,  sf::Color(180,180,180)),
-        StaticObject(580.0f, 530.0f, 60.0f, 60.0f,  sf::Color(173,216,230))
-    } };
 
     //Setting up a wall for the ball to hit.
     b2BodyDef b2_wallDef;
@@ -136,19 +132,6 @@ int main() {
     sf_plankVisual.setFillColor(sf::Color(139, 69, 19)); // Brown
 
     //Create a ball that is fired when space is pressed. We need to first have a dynamic ball to do it.
-    b2BodyDef b2_ballDef;
-    b2_ballDef.type = b2_dynamicBody;
-    b2_ballDef.position.Set(100.0f / SCALE, 500.0f / SCALE);
-    b2Body* b2_ballBody = world.CreateBody(&b2_ballDef);
-
-    b2CircleShape b2_circleShape;
-    b2_circleShape.m_radius = 15.0f / SCALE;
-
-    b2FixtureDef b2_ballFixture;
-    b2_ballFixture.shape = &b2_circleShape;
-    b2_ballFixture.density = 1.0f;
-    b2_ballFixture.restitution = 0.5f; // Bounciness
-    b2_ballBody->CreateFixture(&b2_ballFixture);
 
     sf::CircleShape mouseCircle(20.0f);
     mouseCircle.setFillColor(sf::Color::Transparent);
@@ -173,7 +156,7 @@ int main() {
     if (!backgroundTexture.loadFromFile("../assets/Ang_Birds/Backgrounds.png"))
         std::cout << "Failed to load background" << std::endl;
 
-    sf::Texture skyTex, groundTex, grassTex, treesTex, soilTex;
+    sf::Texture skyTex, groundTex, grassTex, soilTex;
     skyTex.loadFromFile("../assets/Ang_Birds/Sky.png");
     groundTex.loadFromFile("../assets/Ang_Birds/Ground.png");
     grassTex.loadFromFile("../assets/Ang_Birds/Grass.png");
@@ -302,7 +285,6 @@ int main() {
         window.clear(sf::Color(135, 206, 235)); // Sky Blue
         if (showDecorations) {
             window.draw(skySpr);
-            window.draw(treesSpr);
             window.draw(grassSpr);
             window.draw(groundSpr);
             window.draw(soilSpr);
@@ -334,10 +316,6 @@ int main() {
     mixedObjects.push_back(&pig2);
     mixedObjects.push_back(&pig3);
 
-    for (auto& [type, mass, speed, path, rect, x, y] : birdData) {
-        mixedObjects.push_back(new Bird(type, mass, speed, path, rect, x, y));
-    }
-
     for (auto it = mixedObjects.begin(); it != mixedObjects.end(); ++it) {
         Bird* asBird = dynamic_cast<Bird*>(*it);
         if (asBird) { asBird->render(); continue; }
@@ -352,7 +330,7 @@ int main() {
 
 
     Bird redBird("Red", 1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(0, 0, 80, 80), 100.0f, 200.0f);
-    Pig smallPig(20.0f, 50, world, b2Vec2(300.0f / 30.0f, 400.0f / 30.0f), window, "../ assets / Ang_Birds / Pigs.png", sf::IntRect(0, 0, 120, 120));
+    Pig smallPig(20.0f, 50, world, b2Vec2(300.0f / 30.0f, 400.0f / 30.0f), "../ assets / Ang_Birds / Pigs.png", sf::IntRect(0, 0, 120, 120));
 
     DynamicObject* obj1 = &redBird;
     DynamicObject* obj2 = &smallPig;

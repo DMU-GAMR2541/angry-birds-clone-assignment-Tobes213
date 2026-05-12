@@ -31,7 +31,6 @@ public:
 
     void setBirdType(std::string type) {
         str_birdType = type;
-        std::cout << "Bird type set to: " << type << std::endl;
     }
 
     void release() { i_tension = 0; }

@@ -141,7 +141,6 @@ public:
     }
 
     std::string getType() const override { return "Catapult"; }
-    bool isDragging() const { return b_isDragging; }
 
     virtual ~Catapult() {
         std::cout << "Catapult destroyed" << std::endl;

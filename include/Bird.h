@@ -187,6 +187,20 @@ public:
     void render(sf::RenderWindow& window) {
         if (!b_isExploded)
             window.draw(sp_rendered);
+
+        if (b_showExplosion && f_explosionRadius < 120.0f) {
+            f_explosionRadius += 5.0f;
+            sf::CircleShape explosion(f_explosionRadius);
+            explosion.setOrigin(f_explosionRadius, f_explosionRadius);
+            explosion.setPosition(v_explosionPos);
+            explosion.setFillColor(sf::Color(255, 100, 0, 150 - static_cast<int>(f_explosionRadius)));
+            explosion.setOutlineColor(sf::Color(255, 50, 0, 200));
+            explosion.setOutlineThickness(2.0f);
+            window.draw(explosion);
+        }
+        else if (f_explosionRadius >= 120.0f) {
+            b_showExplosion = false;
+        }
         if (b_showEggExplosion && f_eggExplosionRadius < 80.0f) {
             f_eggExplosionRadius += 4.0f;
             sf::CircleShape eggExplosion(f_eggExplosionRadius);
@@ -202,19 +216,6 @@ public:
         }
         if (b2_egg && !b_eggExploded)
             window.draw(sh_egg);
-        if (b_showEggExplosion && f_eggExplosionRadius < 80.0f) {
-            f_eggExplosionRadius += 4.0f;
-            sf::CircleShape eggExplosion(f_eggExplosionRadius);
-            eggExplosion.setOrigin(f_eggExplosionRadius, f_eggExplosionRadius);
-            eggExplosion.setPosition(v_eggExplosionPos);
-            eggExplosion.setFillColor(sf::Color(255, 255, 255, 100 - static_cast<int>(f_eggExplosionRadius)));
-            eggExplosion.setOutlineColor(sf::Color(200, 200, 200, 200));
-            eggExplosion.setOutlineThickness(2.0f);
-            window.draw(eggExplosion);
-        }
-        else if (f_eggExplosionRadius >= 80.0f) {
-            b_showEggExplosion = false;
-        }
     }
 
     std::string getType() const override { return "Bird: " + str_birdType; }
