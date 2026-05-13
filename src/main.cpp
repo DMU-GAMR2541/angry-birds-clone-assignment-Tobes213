@@ -3,11 +3,11 @@
 #include <iostream>
 #include "Bird.h"
 #include "Pig.h"
-#include <Enemy.h>
+#include "Enemy.h"
 #include "Catapult.h"
 #include "DynamicObject.h"
 #include "ContactListener.h"
-#include <NonInteractable.h>
+#include "NonInteractable.h"
 #include <list>
 #include <array>
 #include <tuple>
@@ -31,9 +31,9 @@ int main() {
     ContactListener contactListener;
     world.SetContactListener(&contactListener);
 
-    Pig pig1(20.0f, 100, world, b2Vec2(200.0f / 30.0f, 300.0f / 30.0f), "../assets/Ang_Birds/sprite_1.png", sf::IntRect(4, 5, 56, 47));
-    Pig pig2(30.0f, 150, world, b2Vec2(400.0f / 30.0f, 200.0f / 30.0f), "../assets/Ang_Birds/sprite_2.png", sf::IntRect(5, 0, 89, 100));
-    Pig pig3(40.0f, 200, world, b2Vec2(600.0f / 30.0f, 100.0f / 30.0f), "../assets/Ang_Birds/sprite_4.png", sf::IntRect(2, 8, 103, 98));
+    Pig pig1(20.0f, 100, world, b2Vec2(355.0f / 30.0f, 480.0f / 30.0f), "../assets/Ang_Birds/sprite_1.png", sf::IntRect(4, 5, 56, 47));
+    Pig pig2(30.0f, 150, world, b2Vec2(355.0f / 30.0f, 340.0f / 30.0f), "../assets/Ang_Birds/sprite_2.png", sf::IntRect(5, 0, 89, 100));
+    Pig pig3(40.0f, 200, world, b2Vec2(615.0f / 30.0f, 480.0f / 30.0f), "../assets/Ang_Birds/sprite_4.png", sf::IntRect(2, 8, 103, 98));
 
     pig1.getBody()->GetUserData().pointer = 3;
     pig2.getBody()->GetUserData().pointer = 4;
@@ -42,10 +42,10 @@ int main() {
     std::list<Bird*> birdQueue;
 
     std::vector<std::tuple<std::string, float, float, std::string, sf::IntRect, float, float>> birdData = {
-        {"Red",   1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(906,797,45,51),   100.0f, 560.0f},
-        {"Chuck", 1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(667,879,61,63),  160.0f, 560.0f},
-        {"Bomb",  1.0f,  10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(408,726,65,80), 220.0f, 560.0f},
-        {"Matilda", 1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(418,638,73,85), 300.0f, 560.0f}
+        {"Red",     1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(906,797,45,51),   30.0f, 560.0f},
+        {"Chuck",   1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(667,879,61,63),   70.0f, 560.0f},
+        {"Bomb",    1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(408,726,65,80),   110.0f, 560.0f},
+        {"Matilda", 1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(418,638,73,85),   150.0f, 560.0f}
     };
 
     for (auto& [type, mass, speed, path, rect, x, y] : birdData) {
@@ -53,7 +53,7 @@ int main() {
         birdQueue.push_back(b);
     }
 
-    Catapult catapult(150.0f, 570.0f, world, 1.0f);
+    Catapult catapult(80.0f, 570.0f, world, 1.0f);
     if (!birdQueue.empty()) {
         catapult.loadBird(birdQueue.front());
         birdQueue.pop_front();
@@ -91,11 +91,26 @@ int main() {
     sf_groundVisual.setOrigin(400.0f, 10.0f);
     sf_groundVisual.setFillColor(sf::Color(34, 139, 34)); // Forest Green
 
-    std::array<NonInteractable, 2> staticObjects = { {
-    NonInteractable("Post", 450.0f, 510.0f, 20.0f, 80.0f, sf::Color(180,180,180)),
-    NonInteractable("Block", 580.0f, 530.0f, 60.0f, 60.0f, sf::Color(173,216,230))
-}   }; 
+    std::array<NonInteractable, 14> staticObjects = { {
+     NonInteractable("Base1", 300.0f, 540.0f, 120.0f, 15.0f, sf::Color(139,90,43), world),
+     NonInteractable("PostL1", 300.0f, 480.0f, 15.0f, 60.0f, sf::Color(139,90,43), world),
+     NonInteractable("PostR1", 405.0f, 480.0f, 15.0f, 60.0f, sf::Color(139,90,43), world),
+     NonInteractable("Shelf1", 300.0f, 480.0f, 120.0f, 15.0f, sf::Color(139,90,43), world),
+     NonInteractable("PostL2", 300.0f, 390.0f, 15.0f, 90.0f, sf::Color(139,90,43), world),
+     NonInteractable("PostR2", 405.0f, 390.0f, 15.0f, 90.0f, sf::Color(139,90,43), world),
+     NonInteractable("Shelf2", 300.0f, 390.0f, 120.0f, 15.0f, sf::Color(139,90,43), world),
+     NonInteractable("Stone1", 300.0f, 365.0f, 40.0f, 25.0f, sf::Color(150,150,150), world),
+     NonInteractable("Stone2", 380.0f, 365.0f, 40.0f, 25.0f, sf::Color(150,150,150), world),
+     NonInteractable("Base2", 560.0f, 540.0f, 120.0f, 15.0f, sf::Color(139,90,43), world),
+     NonInteractable("PostL3", 560.0f, 450.0f, 15.0f, 90.0f, sf::Color(139,90,43), world),
+     NonInteractable("PostR3", 665.0f, 450.0f, 15.0f, 90.0f, sf::Color(139,90,43), world),
+     NonInteractable("Shelf3", 560.0f, 450.0f, 120.0f, 15.0f, sf::Color(139,90,43), world),
+     NonInteractable("Stone3", 600.0f, 425.0f, 40.0f, 25.0f, sf::Color(150,150,150), world)
+ } };
 
+    for (int i = 0; i < staticObjects.size(); i++) {
+        staticObjects[i].getBody()->GetUserData().pointer = 200 + i;
+    }
 
     //Setting up a wall for the ball to hit.
     b2BodyDef b2_wallDef;
@@ -110,28 +125,6 @@ int main() {
     sf::RectangleShape sf_wallVisual(sf::Vector2f(20.0f, 160.0f));
     sf_wallVisual.setOrigin(10.0f, 80.0f);
     sf_wallVisual.setFillColor(sf::Color::Red);
-
-    //Rather than having an immovable wall, we can use the dynamic body type to create one that can have velocity etc.
-    b2BodyDef b2_plankDef;
-
-    b2_plankDef.type = b2_dynamicBody;
-    b2_plankDef.position.Set(550.0f / SCALE, 450.0f / SCALE);
-    b2Body* b2_plankBody = world.CreateBody(&b2_plankDef);
-
-    b2PolygonShape b2_plankBox;
-    b2_plankBox.SetAsBox(10.0f / SCALE, 60.0f / SCALE);
-
-    b2FixtureDef b2_plankFixture;
-    b2_plankFixture.shape = &b2_plankBox;
-    b2_plankFixture.density = 1.5f;   // Light wood
-    b2_plankFixture.friction = 0.3f;
-    b2_plankBody->CreateFixture(&b2_plankFixture);
-
-    sf::RectangleShape sf_plankVisual(sf::Vector2f(20.0f, 120.0f));
-    sf_plankVisual.setOrigin(10.0f, 60.0f);
-    sf_plankVisual.setFillColor(sf::Color(139, 69, 19)); // Brown
-
-    //Create a ball that is fired when space is pressed. We need to first have a dynamic ball to do it.
 
     sf::CircleShape mouseCircle(20.0f);
     mouseCircle.setFillColor(sf::Color::Transparent);
@@ -252,6 +245,17 @@ int main() {
 
         contactListener.s_ptr.clear();
 
+        if (contactListener.s_blockHit) {
+            for (int i = 0; i < (int)staticObjects.size(); i++) {
+                if (!staticObjects[i].isDestroyed() &&
+                    staticObjects[i].getBody()->GetUserData().pointer == contactListener.hitBlockPtr) {
+                    staticObjects[i].onHit();
+                }
+            }
+            contactListener.s_blockHit = false;
+            contactListener.hitBlockPtr = 0;
+        }
+
         if (!pig1.isDestroyed()) pig1.update();
         if (!pig2.isDestroyed()) pig2.update();
         if (!pig3.isDestroyed()) pig3.update();
@@ -277,10 +281,6 @@ int main() {
         sf_groundVisual.setPosition(b2_groundBody->GetPosition().x * SCALE, b2_groundBody->GetPosition().y * SCALE);
         sf_wallVisual.setPosition(b2_wallBody->GetPosition().x * SCALE, b2_wallBody->GetPosition().y * SCALE);
 
-        // Dynamic wall.
-        sf_plankVisual.setPosition(b2_plankBody->GetPosition().x * SCALE, b2_plankBody->GetPosition().y * SCALE);
-        sf_plankVisual.setRotation(b2_plankBody->GetAngle() * (180.0f / PI));
-
         //Render all of the content at each frame. Remember you need to clear the screen each iteration or artefacts remain.
         window.clear(sf::Color(135, 206, 235)); // Sky Blue
         if (showDecorations) {
@@ -297,8 +297,10 @@ int main() {
 
         catapult.render(window);
 
-        for (auto it = staticObjects.begin(); it != staticObjects.end(); ++it)
+        for (auto it = staticObjects.begin(); it != staticObjects.end(); ++it) {
+            it->update();
             it->render(window);
+        }
 
         if (!pig1.isDestroyed()) pig1.render(window);
         if (!pig2.isDestroyed()) pig2.render(window);
@@ -307,7 +309,6 @@ int main() {
 
         window.draw(sf_groundVisual);
         window.draw(sf_wallVisual);
-        window.draw(sf_plankVisual);
         window.display();
     }
 

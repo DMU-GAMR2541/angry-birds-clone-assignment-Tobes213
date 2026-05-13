@@ -10,7 +10,11 @@ class ContactListener : public b2ContactListener {
 
     public:
         std::set<uintptr_t> s_ptr;
-       
+        bool s_blockHit = false;
+        b2Body* blockHitBodyA = nullptr;
+        b2Body* blockHitBodyB = nullptr;
+        uintptr_t hitBlockPtr = 0;
+
         ContactListener() = default;
 
     // Called when two fixtures begin to touch
@@ -29,10 +33,17 @@ class ContactListener : public b2ContactListener {
                 s_ptr.insert(ptrA);
                 std::cout << ptrB << " and " << ptrA << " hit " << std::endl;
             }
+            if (ptrA == 100 && ptrB >= 200) {
+                s_blockHit = true;
+                hitBlockPtr = ptrB;
+            }
+            else if (ptrB == 100 && ptrA >= 200) {
+                s_blockHit = true;
+                hitBlockPtr = ptrA;
+            }
         }
     // Called when two fixtures cease to touch
     void EndContact(b2Contact* contact) override {
-        std::cout << "Collision Ended" << std::endl;
     }
 
     std::set<uintptr_t> getPointer() {
