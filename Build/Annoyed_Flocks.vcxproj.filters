@@ -12,6 +12,9 @@
     <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Catapult.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\ContactListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\DynamicObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -34,9 +37,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\UI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\ContactListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

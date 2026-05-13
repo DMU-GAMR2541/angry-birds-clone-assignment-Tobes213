@@ -34,10 +34,14 @@ int main() {
     Pig pig1(20.0f, 100, world, b2Vec2(355.0f / 30.0f, 480.0f / 30.0f), "../assets/Ang_Birds/sprite_1.png", sf::IntRect(4, 5, 56, 47));
     Pig pig2(30.0f, 150, world, b2Vec2(355.0f / 30.0f, 340.0f / 30.0f), "../assets/Ang_Birds/sprite_2.png", sf::IntRect(5, 0, 89, 100));
     Pig pig3(40.0f, 200, world, b2Vec2(615.0f / 30.0f, 480.0f / 30.0f), "../assets/Ang_Birds/sprite_4.png", sf::IntRect(2, 8, 103, 98));
+    Pig pig4(25.0f, 120, world, b2Vec2(580.0f / 30.0f, 340.0f / 30.0f), "../assets/Ang_Birds/sprite_2.png", sf::IntRect(5, 0, 89, 100));
+
 
     pig1.getBody()->GetUserData().pointer = 3;
     pig2.getBody()->GetUserData().pointer = 4;
     pig3.getBody()->GetUserData().pointer = 5;
+    pig4.getBody()->GetUserData().pointer = 6;
+
 
     std::list<Bird*> birdQueue;
 
@@ -64,6 +68,8 @@ int main() {
     gameObjects.insert({ "pig", &pig1 });
     gameObjects.insert({ "pig", &pig2 });
     gameObjects.insert({ "pig", &pig3 });
+    gameObjects.insert({ "pig", &pig4 });
+
 
     for (auto& [type, mass, speed, path, rect, x, y] : birdData) {
         gameObjects.insert({ "bird", birdQueue.back() });
@@ -176,6 +182,57 @@ int main() {
 
     bool showDecorations = false;
 
+
+
+    std::vector<DynamicObject*> mixedObjects;
+    mixedObjects.push_back(&pig1);
+    mixedObjects.push_back(&pig2);
+    mixedObjects.push_back(&pig3);
+
+    for (auto it = mixedObjects.begin(); it != mixedObjects.end(); ++it) {
+        Bird* asBird = dynamic_cast<Bird*>(*it);
+        if (asBird) { asBird->render(); continue; }
+
+        Pig* asPig = dynamic_cast<Pig*>(*it);
+        if (asPig) { asPig->render(window); }
+    }
+
+    for (auto obj : mixedObjects) {
+        if (dynamic_cast<Bird*>(obj)) delete obj;
+    }
+
+
+    Bird redBird("Red", 1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(0, 0, 80, 80), 100.0f, 200.0f);
+    Pig smallPig(20.0f, 50, world, b2Vec2(300.0f / 30.0f, 400.0f / 30.0f), "../ assets / Ang_Birds / Pigs.png", sf::IntRect(0, 0, 120, 120));
+
+    DynamicObject* obj1 = &redBird;
+    DynamicObject* obj2 = &smallPig;
+    DynamicObject* obj3 = &catapult;
+
+    std::cout << "\n--- Upcasting Demo ---" << std::endl;
+    obj1->update();
+    obj2->update();
+    obj3->update();
+
+    std::cout << "\n--- Upcast to GameObject ---" << std::endl;
+    GameObject* gameObj1 = &redBird;
+    std::cout << "Type: " << gameObj1->getType() << std::endl;
+
+
+    std::cout << "\n--- Smart Pointer Demo ---" << std::endl;
+    std::unique_ptr<Bird> smartBird = std::make_unique<Bird>(
+        "Red", 1.0f, 10.0f,
+        "../assets/Ang_Birds/Angry_Birds.png",
+        sf::IntRect(906, 797, 45, 51),
+        100.0f, 200.0f
+    );
+    std::cout << "Smart Bird type: " << smartBird->getType() << std::endl;
+    std::cout << "Smart pointer automatically cleaned up when out of scope" << std::endl;
+
+    std::shared_ptr<Enemy> smartEnemy = std::make_shared<Enemy>(100);
+    std::cout << "Smart Enemy health: " << smartEnemy->getHealth() << std::endl;
+    std::cout << "Shared pointer reference count: " << smartEnemy.use_count() << std::endl;
+
     // --- 7. MAIN LOOP ---
     while (window.isOpen()) {
         sf::Event event;
@@ -238,10 +295,14 @@ int main() {
         if (hits.count(3) && !pig1.isDestroyed()) pig1.takeDamage(100);
         if (hits.count(4) && !pig2.isDestroyed()) pig2.takeDamage(75);
         if (hits.count(5) && !pig3.isDestroyed()) pig3.takeDamage(100);
+        if (hits.count(6) && !pig4.isDestroyed()) pig4.takeDamage(80);
+
 
         if (hits.count(999) || pig1.getBody()->GetUserData().pointer == 999) pig1.takeDamage(1000);
         if (pig2.getBody()->GetUserData().pointer == 999) pig2.takeDamage(1000);
         if (pig3.getBody()->GetUserData().pointer == 999) pig3.takeDamage(1000);
+        if (pig4.getBody()->GetUserData().pointer == 999) pig4.takeDamage(1000);
+
 
         contactListener.s_ptr.clear();
 
@@ -259,8 +320,10 @@ int main() {
         if (!pig1.isDestroyed()) pig1.update();
         if (!pig2.isDestroyed()) pig2.update();
         if (!pig3.isDestroyed()) pig3.update();
+        if (!pig4.isDestroyed()) pig4.update();
 
-        int livePigs = (!pig1.isDestroyed()) + (!pig2.isDestroyed()) + (!pig3.isDestroyed());
+
+        int livePigs = (!pig1.isDestroyed()) + (!pig2.isDestroyed()) + (!pig3.isDestroyed()) + (!pig4.isDestroyed());
         pigText.setString("Pigs: " + std::to_string(livePigs));
 
         for (auto it = birdQueue.begin(); it != birdQueue.end(); ++it)
@@ -305,61 +368,12 @@ int main() {
         if (!pig1.isDestroyed()) pig1.render(window);
         if (!pig2.isDestroyed()) pig2.render(window);
         if (!pig3.isDestroyed()) pig3.render(window);
+        if (!pig4.isDestroyed()) pig4.render(window);
         window.draw(mouseCircle); 
 
         window.draw(sf_groundVisual);
         window.draw(sf_wallVisual);
         window.display();
     }
-
-    std::vector<DynamicObject*> mixedObjects;
-    mixedObjects.push_back(&pig1);
-    mixedObjects.push_back(&pig2);
-    mixedObjects.push_back(&pig3);
-
-    for (auto it = mixedObjects.begin(); it != mixedObjects.end(); ++it) {
-        Bird* asBird = dynamic_cast<Bird*>(*it);
-        if (asBird) { asBird->render(); continue; }
-
-        Pig* asPig = dynamic_cast<Pig*>(*it);
-        if (asPig) { asPig->render(window); }
-    }
-
-    for (auto obj : mixedObjects) {
-        if (dynamic_cast<Bird*>(obj)) delete obj;
-    }
-
-
-    Bird redBird("Red", 1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(0, 0, 80, 80), 100.0f, 200.0f);
-    Pig smallPig(20.0f, 50, world, b2Vec2(300.0f / 30.0f, 400.0f / 30.0f), "../ assets / Ang_Birds / Pigs.png", sf::IntRect(0, 0, 120, 120));
-
-    DynamicObject* obj1 = &redBird;
-    DynamicObject* obj2 = &smallPig;
-    DynamicObject* obj3 = &catapult;
-
-    std::cout << "\n--- Upcasting Demo ---" << std::endl;
-    obj1->update();
-    obj2->update();
-    obj3->update();
-
-    std::cout << "\n--- Upcast to GameObject ---" << std::endl;
-    GameObject* gameObj1 = &redBird;
-    std::cout << "Type: " << gameObj1->getType() << std::endl;
-
-
-    std::cout << "\n--- Smart Pointer Demo ---" << std::endl;
-    std::unique_ptr<Bird> smartBird = std::make_unique<Bird>(
-        "Red", 1.0f, 10.0f,
-        "../assets/Ang_Birds/Angry_Birds.png",
-        sf::IntRect(906, 797, 45, 51),
-        100.0f, 200.0f
-    );
-    std::cout << "Smart Bird type: " << smartBird->getType() << std::endl;
-    std::cout << "Smart pointer automatically cleaned up when out of scope" << std::endl;
-
-    std::shared_ptr<Enemy> smartEnemy = std::make_shared<Enemy>(100);
-    std::cout << "Smart Enemy health: " << smartEnemy->getHealth() << std::endl;
-    std::cout << "Shared pointer reference count: " << smartEnemy.use_count() << std::endl;
-
     return 0;
 }
