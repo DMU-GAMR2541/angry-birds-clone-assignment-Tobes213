@@ -385,12 +385,17 @@ int main() {
         int livePigs = (!pig1.isDestroyed()) + (!pig2.isDestroyed()) + (!pig3.isDestroyed()) + (!pig4.isDestroyed());
         pigText.setString("Pigs: " + std::to_string(livePigs));
 
-        if (livePigs == 0) b_gameWon = true;
+        if (livePigs == 0) {
+            b_gameWon = true;
+            b_showButtons = true;
+        }
+
         if (birdQueue.empty() && livePigs > 0 && !b_gameWon) {
             if (!b_gameOverTimerStarted) {
                 b_gameOverTimerStarted = true;
                 gameOverClock.restart();
             }
+
             if (gameOverClock.getElapsedTime().asSeconds() >= 10.0f) {
                 b_gameOver = true;
                 b_showButtons = true;
