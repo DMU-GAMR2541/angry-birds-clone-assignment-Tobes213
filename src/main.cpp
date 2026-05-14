@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <box2d/box2d.h>
 #include <iostream>
+#include <windows.h>
 #include "Bird.h"
 #include "Pig.h"
 #include "Enemy.h"
@@ -170,6 +171,32 @@ int main() {
     gameOverText.setFillColor(sf::Color::Red);
     gameOverText.setPosition(200.0f, 250.0f);
 
+    sf::RectangleShape btn_tryAgain(sf::Vector2f(200.0f, 50.0f));
+    btn_tryAgain.setFillColor(sf::Color(0, 150, 0));
+    btn_tryAgain.setPosition(150.0f, 350.0f);
+
+    sf::RectangleShape btn_quit(sf::Vector2f(200.0f, 50.0f));
+    btn_quit.setFillColor(sf::Color(150, 0, 0));
+    btn_quit.setPosition(430.0f, 350.0f);
+
+    sf::Text txt_tryAgain;
+    txt_tryAgain.setFont(font);
+    txt_tryAgain.setString("Try Again");
+    txt_tryAgain.setCharacterSize(28);
+    txt_tryAgain.setFillColor(sf::Color::White);
+    txt_tryAgain.setPosition(165.0f, 360.0f);
+
+    sf::Text txt_quit;
+    txt_quit.setFont(font);
+    txt_quit.setString("Quit");
+    txt_quit.setCharacterSize(28);
+    txt_quit.setFillColor(sf::Color::White);
+    txt_quit.setPosition(490.0f, 360.0f);
+
+    sf::Clock gameOverClock;
+    bool b_gameOverTimerStarted = false;
+    bool b_showButtons = false;
+
     sf::Texture backgroundTexture;
     if (!backgroundTexture.loadFromFile("../assets/Ang_Birds/Backgrounds.png"))
         std::cout << "Failed to load background" << std::endl;
@@ -290,6 +317,19 @@ int main() {
                     catapult.handleMousePress(sf::Vector2f(event.mouseButton.x, event.mouseButton.y));
                 }
 
+                if (b_showButtons && event.mouseButton.button == sf::Mouse::Left) {
+                    sf::Vector2f mouse(event.mouseButton.x, event.mouseButton.y);
+                    if (btn_quit.getGlobalBounds().contains(mouse))
+                        window.close();
+                    if (btn_tryAgain.getGlobalBounds().contains(mouse)) {
+                        char exePath[MAX_PATH];
+                        GetModuleFileNameA(NULL, exePath, MAX_PATH);
+                        std::string cmd = std::string("\"") + exePath + "\"";
+                        ShellExecuteA(NULL, "open", exePath, NULL, NULL, SW_SHOW);
+                        window.close();
+                    }
+                }
+
                 if (event.mouseButton.button == sf::Mouse::Right) {
                     if (catapult.isFired() && catapult.getLoadedBird())
                         catapult.getLoadedBird()->activate({ pig1.getBody(), pig2.getBody(), pig3.getBody() });
@@ -346,8 +386,16 @@ int main() {
         pigText.setString("Pigs: " + std::to_string(livePigs));
 
         if (livePigs == 0) b_gameWon = true;
-        if (birdQueue.empty() && !catapult.getLoadedBird() && !catapult.isFired() && livePigs > 0) b_gameOver = true;
-
+        if (birdQueue.empty() && livePigs > 0 && !b_gameWon) {
+            if (!b_gameOverTimerStarted) {
+                b_gameOverTimerStarted = true;
+                gameOverClock.restart();
+            }
+            if (gameOverClock.getElapsedTime().asSeconds() >= 10.0f) {
+                b_gameOver = true;
+                b_showButtons = true;
+            }
+        }
         for (auto it = birdQueue.begin(); it != birdQueue.end(); ++it)
             (*it)->update();
 
@@ -395,6 +443,12 @@ int main() {
 
         if (b_gameWon) window.draw(gameWonText);
         if (b_gameOver) window.draw(gameOverText);
+        if (b_showButtons || b_gameWon) {
+            window.draw(btn_tryAgain);
+            window.draw(btn_quit);
+            window.draw(txt_tryAgain);
+            window.draw(txt_quit);
+        }
 
         window.draw(sf_groundVisual);
         window.draw(sf_wallVisual);

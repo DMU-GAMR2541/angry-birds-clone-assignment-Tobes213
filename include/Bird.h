@@ -140,17 +140,25 @@ public:
             eggDef.type = b2_dynamicBody;
             eggDef.position = b2_body->GetPosition();
             b2_egg = b2_worldRef->CreateBody(&eggDef);
-            b2_egg->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
+
             b2CircleShape eggShape;
             eggShape.m_radius = 0.3f;
+
             b2FixtureDef eggFixture;
             eggFixture.shape = &eggShape;
             eggFixture.density = 1.0f;
             eggFixture.restitution = 0.0f;
+
+            b2Filter eggFilter;
+            eggFilter.categoryBits = 0x0004;
+            eggFilter.maskBits = 0x0001;
+            eggFixture.filter = eggFilter;
+
             b2_egg->CreateFixture(&eggFixture);
-            b2_egg->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
+            b2_egg->SetLinearVelocity(b2Vec2(0.0f, 5.0f));
             b2_egg->SetGravityScale(3.0f);
             b2_egg->SetFixedRotation(true);
+
             sh_egg.setRadius(8.0f);
             sh_egg.setOrigin(8.0f, 10.0f);
             sh_egg.setFillColor(sf::Color::White);
