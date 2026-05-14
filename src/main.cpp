@@ -46,7 +46,7 @@ int main() {
     std::list<Bird*> birdQueue;
 
     std::vector<std::tuple<std::string, float, float, std::string, sf::IntRect, float, float>> birdData = {
-        {"Red",     1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(906,797,45,51),   30.0f, 560.0f},
+        {"Red",     1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(906,797,45,47),   30.0f, 560.0f},
         {"Chuck",   1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(667,879,61,63),   70.0f, 560.0f},
         {"Bomb",    1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(408,726,65,80),   110.0f, 560.0f},
         {"Matilda", 1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(418,638,73,85),   150.0f, 560.0f}
@@ -71,9 +71,10 @@ int main() {
     gameObjects.insert({ "pig", &pig4 });
 
 
-    for (auto& [type, mass, speed, path, rect, x, y] : birdData) {
-        gameObjects.insert({ "bird", birdQueue.back() });
+    for (auto* bird : birdQueue) {
+        gameObjects.insert({ "bird", bird });
     }
+
 
     auto pigs = gameObjects.equal_range("pig");
     for (auto it = pigs.first; it != pigs.second; ++it) {
@@ -98,23 +99,24 @@ int main() {
     sf_groundVisual.setFillColor(sf::Color(34, 139, 34)); // Forest Green
 
     std::array<NonInteractable, 14> staticObjects = { {
-     NonInteractable("Base1", 300.0f, 540.0f, 120.0f, 15.0f, sf::Color(139,90,43), world),
-     NonInteractable("PostL1", 300.0f, 480.0f, 15.0f, 60.0f, sf::Color(139,90,43), world),
-     NonInteractable("PostR1", 405.0f, 480.0f, 15.0f, 60.0f, sf::Color(139,90,43), world),
-     NonInteractable("Shelf1", 300.0f, 480.0f, 120.0f, 15.0f, sf::Color(139,90,43), world),
-     NonInteractable("PostL2", 300.0f, 390.0f, 15.0f, 90.0f, sf::Color(139,90,43), world),
-     NonInteractable("PostR2", 405.0f, 390.0f, 15.0f, 90.0f, sf::Color(139,90,43), world),
-     NonInteractable("Shelf2", 300.0f, 390.0f, 120.0f, 15.0f, sf::Color(139,90,43), world),
-     NonInteractable("Stone1", 300.0f, 365.0f, 40.0f, 25.0f, sf::Color(150,150,150), world),
-     NonInteractable("Stone2", 380.0f, 365.0f, 40.0f, 25.0f, sf::Color(150,150,150), world),
-     NonInteractable("Base2", 560.0f, 540.0f, 120.0f, 15.0f, sf::Color(139,90,43), world),
-     NonInteractable("PostL3", 560.0f, 450.0f, 15.0f, 90.0f, sf::Color(139,90,43), world),
-     NonInteractable("PostR3", 665.0f, 450.0f, 15.0f, 90.0f, sf::Color(139,90,43), world),
-     NonInteractable("Shelf3", 560.0f, 450.0f, 120.0f, 15.0f, sf::Color(139,90,43), world),
-     NonInteractable("Stone3", 600.0f, 425.0f, 40.0f, 25.0f, sf::Color(150,150,150), world)
- } };
+    NonInteractable("Base1",  300.0f, 541.0f, 120.0f, 15.0f,  sf::Color(139,90,43),   world),
+    NonInteractable("PostL1", 301.0f, 481.0f, 15.0f,  60.0f,  sf::Color(139,90,43),   world),
+    NonInteractable("PostR1", 406.0f, 481.0f, 15.0f,  60.0f,  sf::Color(139,90,43),   world),
+    NonInteractable("Shelf1", 301.0f, 466.0f, 118.0f, 15.0f,  sf::Color(139,90,43),   world),
+    NonInteractable("PostL2", 301.0f, 376.0f, 15.0f,  90.0f,  sf::Color(139,90,43),   world),
+    NonInteractable("PostR2", 406.0f, 376.0f, 15.0f,  90.0f,  sf::Color(139,90,43),   world),
+    NonInteractable("Shelf2", 301.0f, 361.0f, 118.0f, 15.0f,  sf::Color(139,90,43),   world),
+    NonInteractable("Stone1", 306.0f, 336.0f, 38.0f,  25.0f,  sf::Color(150,150,150), world),
+    NonInteractable("Stone2", 378.0f, 336.0f, 38.0f,  25.0f,  sf::Color(150,150,150), world),
+    NonInteractable("Base2",  560.0f, 541.0f, 120.0f, 15.0f,  sf::Color(139,90,43),   world),
+    NonInteractable("PostL3", 561.0f, 451.0f, 15.0f,  90.0f,  sf::Color(139,90,43),   world),
+    NonInteractable("PostR3", 666.0f, 451.0f, 15.0f,  90.0f,  sf::Color(139,90,43),   world),
+    NonInteractable("Shelf3", 561.0f, 436.0f, 118.0f, 15.0f,  sf::Color(139,90,43),   world),
+    NonInteractable("Stone3", 601.0f, 411.0f, 38.0f,  25.0f,  sf::Color(150,150,150), world)
+} };
 
-    for (int i = 0; i < staticObjects.size(); i++) {
+
+    for (int i = 0; i < (int)staticObjects.size(); i++) {
         staticObjects[i].getBody()->GetUserData().pointer = 200 + i;
     }
 
@@ -150,6 +152,23 @@ int main() {
     pigText.setCharacterSize(24);
     pigText.setFillColor(sf::Color::White);
     pigText.setPosition(10.0f, 10.0f);
+
+    bool b_gameWon = false;
+    bool b_gameOver = false;
+
+    sf::Text gameWonText;
+    gameWonText.setFont(font);
+    gameWonText.setString("YOU WIN!");
+    gameWonText.setCharacterSize(64);
+    gameWonText.setFillColor(sf::Color::Green);
+    gameWonText.setPosition(250.0f, 250.0f);
+
+    sf::Text gameOverText;
+    gameOverText.setFont(font);
+    gameOverText.setString("GAME OVER!");
+    gameOverText.setCharacterSize(64);
+    gameOverText.setFillColor(sf::Color::Red);
+    gameOverText.setPosition(200.0f, 250.0f);
 
     sf::Texture backgroundTexture;
     if (!backgroundTexture.loadFromFile("../assets/Ang_Birds/Backgrounds.png"))
@@ -203,7 +222,7 @@ int main() {
 
 
     Bird redBird("Red", 1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(0, 0, 80, 80), 100.0f, 200.0f);
-    Pig smallPig(20.0f, 50, world, b2Vec2(300.0f / 30.0f, 400.0f / 30.0f), "../ assets / Ang_Birds / Pigs.png", sf::IntRect(0, 0, 120, 120));
+    Pig smallPig(20.0f, 50, world, b2Vec2(300.0f / 30.0f, 400.0f / 30.0f), "../assets/Ang_Birds/Pigs.png", sf::IntRect(0, 0, 120, 120));
 
     DynamicObject* obj1 = &redBird;
     DynamicObject* obj2 = &smallPig;
@@ -326,6 +345,9 @@ int main() {
         int livePigs = (!pig1.isDestroyed()) + (!pig2.isDestroyed()) + (!pig3.isDestroyed()) + (!pig4.isDestroyed());
         pigText.setString("Pigs: " + std::to_string(livePigs));
 
+        if (livePigs == 0) b_gameWon = true;
+        if (birdQueue.empty() && !catapult.getLoadedBird() && !catapult.isFired() && livePigs > 0) b_gameOver = true;
+
         for (auto it = birdQueue.begin(); it != birdQueue.end(); ++it)
             (*it)->update();
 
@@ -370,6 +392,9 @@ int main() {
         if (!pig3.isDestroyed()) pig3.render(window);
         if (!pig4.isDestroyed()) pig4.render(window);
         window.draw(mouseCircle); 
+
+        if (b_gameWon) window.draw(gameWonText);
+        if (b_gameOver) window.draw(gameOverText);
 
         window.draw(sf_groundVisual);
         window.draw(sf_wallVisual);

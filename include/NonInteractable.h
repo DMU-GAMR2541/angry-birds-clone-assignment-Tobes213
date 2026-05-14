@@ -11,7 +11,6 @@ private:
     const float SCALE = 30.0f;
     int i_health;
     bool b_isDestroyed = false;
-
 public:
     NonInteractable(std::string name, float posX, float posY, float width, float height, sf::Color colour, b2World& world)
         : StaticObject(posX, posY), str_name(name) {
@@ -35,9 +34,9 @@ public:
 
         b2FixtureDef fixtureDef;
         fixtureDef.shape = &boxShape;
-        fixtureDef.density = 1.0f;
-        fixtureDef.friction = 0.5f;
-        fixtureDef.restitution = 0.1f;
+        fixtureDef.density = 1.5f;
+        fixtureDef.friction = 0.8f;
+        fixtureDef.restitution = 0.0f;
         b2_body->CreateFixture(&fixtureDef);
     }
 
@@ -51,7 +50,6 @@ public:
 
     bool isDestroyed() const { return b_isDestroyed; }
     b2Body* getBody() { return b2_body; }
-
 
     void update() override {
         if (!b_isDestroyed) {

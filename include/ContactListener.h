@@ -25,6 +25,7 @@ class ContactListener : public b2ContactListener {
             uintptr_t ptrA = fixtureA->GetBody()->GetUserData().pointer;
             uintptr_t ptrB = fixtureB->GetBody()->GetUserData().pointer;
 
+
             if (ptrA == 100 && ptrB > 2) {
                 s_ptr.insert(ptrB);
                 std::cout << ptrA << " and " << ptrB << " hit " << std::endl;
