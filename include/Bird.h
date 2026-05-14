@@ -4,16 +4,21 @@
 #include <box2d/box2d.h>
 #include <vector>
 
+// Bird class used for all playable birds
 class Bird : public DynamicObject {
 protected:
     float f_mass;
     float f_speed;
+
+    // Stores bird type name
     std::string str_birdType;
     bool b_activated = false;
     bool b_isExploded = false;
     bool b_showExplosion = false;
     float f_explosionRadius = 0.0f;
     sf::Vector2f v_explosionPos;
+
+    // Egg used by Matilda
     b2Body* b2_egg = nullptr;
     sf::CircleShape sh_egg;
     bool b_eggDropped = false;
@@ -23,10 +28,13 @@ protected:
     bool b_showEggExplosion = false;
     b2World* b2_worldRef = nullptr;
 
+
+    // Bird sprite and texture
     sf::Sprite sp_rendered;
     sf::Texture sf_tex;
     const float SCALE = 30.0f;
 
+    // Box2D physics objects
     b2Body* b2_body = nullptr;
     b2BodyDef b2_bodyDef;
     b2CircleShape b2_circle;
@@ -38,6 +46,7 @@ public:
         float posX = 0.0f, float posY = 0.0f)
         : DynamicObject(posX, posY), str_birdType(type), f_mass(mass), f_speed(speed)
     {
+        // Loads bird texture
         if (!sf_tex.loadFromFile(spritePath))
             std::cout << "Failed to load bird texture: " << spritePath << std::endl;
 
@@ -48,6 +57,8 @@ public:
     }
 
     void update() override {
+
+        // Syncs sprite with physics body
         if (b2_body) {
             sp_rendered.setPosition(
                 b2_body->GetPosition().x * SCALE,
@@ -55,34 +66,46 @@ public:
             );
             sp_rendered.setRotation(b2_body->GetAngle() * (180.0f / 3.1415927f));
         }
+
+        // Updates Matilda egg movement
         if (b2_egg && !b_eggExploded) {
             sf::Vector2f eggPos(b2_egg->GetPosition().x * SCALE, b2_egg->GetPosition().y * SCALE);
             sh_egg.setPosition(eggPos);
             b2Vec2 eggVel = b2_egg->GetLinearVelocity();
             float eggSpeed = std::sqrt(eggVel.x * eggVel.x + eggVel.y * eggVel.y);
+
+            // Egg explodes when it lands
             if (eggSpeed < 0.5f && b2_egg->GetPosition().y * SCALE > 200.0f) {
                 b_eggExploded = true;
                 b_showEggExplosion = true;
                 v_eggExplosionPos = eggPos;
                 float eggExplosionRadius = 2.0f;
                 float eggExplosionForce = 25.0f;
+
+                // Pushes nearby bodies away
                 for (b2Body* body = b2_egg->GetWorld()->GetBodyList(); body; body = body->GetNext()) {
                     if (body == b2_egg) continue;
                     b2Vec2 dir = body->GetPosition() - b2_egg->GetPosition();
                     float dist = std::sqrt(dir.x * dir.x + dir.y * dir.y);
+
                     if (dist < eggExplosionRadius && dist > 0.0f) {
                         b2Vec2 impulse(dir.x / dist * eggExplosionForce, dir.y / dist * eggExplosionForce);
                         body->ApplyLinearImpulse(impulse, body->GetWorldCenter(), true);
+
                         if (body->GetUserData().pointer >= 3 && body->GetUserData().pointer <= 5)
                             body->GetUserData().pointer = 999;
                     }
                 }
+
+                // Stops egg movement after exploding
                 b2_egg->SetType(b2_staticBody);
             }
         }
     }
 
     void initPhysics(b2World& world) {
+
+        // Creates bird physics body
         b2_bodyDef.type = b2_dynamicBody;
         b2_bodyDef.position.Set(sp_rendered.getPosition().x / SCALE, sp_rendered.getPosition().y / SCALE);
         b2_body = world.CreateBody(&b2_bodyDef);
@@ -95,14 +118,17 @@ public:
         b2_worldRef = &world;
     }
 
+    // Launches bird using force
     void fire(float forceX, float forceY) {
         if (b2_body)
             b2_body->ApplyLinearImpulse(b2Vec2(forceX, forceY), b2_body->GetWorldCenter(), true);
     }
 
+    // Activates bird special abilities
     void activate(std::vector<b2Body*> pigBodies = {}) {
         if (!b2_body) return;
 
+        // Chuck speed boost ability
         if (str_birdType == "Chuck" && !b_activated) {
             b_activated = true;
             b2Vec2 vel = b2_body->GetLinearVelocity();
@@ -111,6 +137,8 @@ public:
             b2_body->SetLinearVelocity(b2Vec2(normalised.x * speed * 2.5f, normalised.y * speed * 2.5f));
             std::cout << "Chuck speed boost activated!" << std::endl;
         }
+
+        // Bomb explosion ability
         else if (str_birdType == "Bomb" && !b_activated) {
             b_activated = true;
             b2Vec2 bombPos = b2_body->GetPosition();
@@ -134,6 +162,8 @@ public:
             b_showExplosion = true;
             v_explosionPos = sf::Vector2f(b2_body->GetPosition().x * SCALE, b2_body->GetPosition().y * SCALE);
         }
+
+        // Matilda egg drop ability
         else if (str_birdType == "Matilda" && !b_eggDropped) {
             b_eggDropped = true;
             b2BodyDef eggDef;
@@ -149,6 +179,8 @@ public:
             eggFixture.density = 1.0f;
             eggFixture.restitution = 0.0f;
 
+
+            // Collision filtering for egg
             b2Filter eggFilter;
             eggFilter.categoryBits = 0x0004;
             eggFilter.maskBits = 0x0001;
@@ -169,17 +201,20 @@ public:
         }
     }
 
+    // Resets bird ability states
     void reset() {
         b_activated = false;
         b_eggDropped = false;
     }
 
+    // Changes bird position
     void setPosition(float x, float y) {
         if (b2_body)
             b2_body->SetTransform(b2Vec2(x / SCALE, y / SCALE), 0);
         sp_rendered.setPosition(x, y);
     }
 
+    // Switches between static and dynamic physics
     void setStatic(bool isStatic) {
         if (b2_body) {
             b2_body->SetType(isStatic ? b2_staticBody : b2_dynamicBody);
@@ -193,9 +228,12 @@ public:
     }
 
     void render(sf::RenderWindow& window) {
+
+        // Draws bird sprite
         if (!b_isExploded)
             window.draw(sp_rendered);
 
+        // Explosion animation effect
         if (b_showExplosion && f_explosionRadius < 120.0f) {
             f_explosionRadius += 5.0f;
             sf::CircleShape explosion(f_explosionRadius);
@@ -206,9 +244,12 @@ public:
             explosion.setOutlineThickness(2.0f);
             window.draw(explosion);
         }
+
         else if (f_explosionRadius >= 120.0f) {
             b_showExplosion = false;
         }
+
+        // Egg explosion animation
         if (b_showEggExplosion && f_eggExplosionRadius < 80.0f) {
             f_eggExplosionRadius += 4.0f;
             sf::CircleShape eggExplosion(f_eggExplosionRadius);
@@ -219,9 +260,12 @@ public:
             eggExplosion.setOutlineThickness(2.0f);
             window.draw(eggExplosion);
         }
+
         else if (f_eggExplosionRadius >= 80.0f) {
             b_showEggExplosion = false;
         }
+
+        // Draws Matilda egg
         if (b2_egg && !b_eggExploded)
             window.draw(sh_egg);
     }
@@ -233,6 +277,7 @@ public:
     bool hasPhysics() const { return b2_body != nullptr; }
     b2Body* getBody() { return b2_body; }
 
+    // Destructor message for debugging
     virtual ~Bird() {
         std::cout << "Bird destroyed" << std::endl;
     }

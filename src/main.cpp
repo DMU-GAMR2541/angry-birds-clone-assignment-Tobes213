@@ -25,6 +25,8 @@ int main() {
     //Can set a definition for PI.catapult.update();
     const float PI = 3.1415927;
 
+    // Used to convert Box2D positions into SFML positions
+
     //setup world.
     b2Vec2 b2_gravity(0.0f, 9.8f); // Earth-like gravity
     b2World world(b2_gravity);
@@ -37,7 +39,7 @@ int main() {
     Pig pig3(40.0f, 200, world, b2Vec2(615.0f / 30.0f, 480.0f / 30.0f), "../assets/Ang_Birds/sprite_4.png", sf::IntRect(2, 8, 103, 98));
     Pig pig4(25.0f, 120, world, b2Vec2(580.0f / 30.0f, 340.0f / 30.0f), "../assets/Ang_Birds/sprite_2.png", sf::IntRect(5, 0, 89, 100));
 
-
+    // Collision IDs for each pig
     pig1.getBody()->GetUserData().pointer = 3;
     pig2.getBody()->GetUserData().pointer = 4;
     pig3.getBody()->GetUserData().pointer = 5;
@@ -52,13 +54,15 @@ int main() {
         {"Bomb",    1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(408,726,65,80),   110.0f, 560.0f},
         {"Matilda", 1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(418,638,73,85),   150.0f, 560.0f}
     };
-
+    // Creates each bird and adds it to the queue
     for (auto& [type, mass, speed, path, rect, x, y] : birdData) {
         Bird* b = new Bird(type, mass, speed, path, rect, x, y);
         birdQueue.push_back(b);
     }
 
     Catapult catapult(80.0f, 570.0f, world, 1.0f);
+
+    // Loads the first bird into the catapult
     if (!birdQueue.empty()) {
         catapult.loadBird(birdQueue.front());
         birdQueue.pop_front();
@@ -116,7 +120,7 @@ int main() {
     NonInteractable("Stone3", 601.0f, 411.0f, 38.0f,  25.0f,  sf::Color(150,150,150), world)
 } };
 
-
+    // Gives every block a unique collision ID
     for (int i = 0; i < (int)staticObjects.size(); i++) {
         staticObjects[i].getBody()->GetUserData().pointer = 200 + i;
     }
@@ -157,6 +161,7 @@ int main() {
     bool b_gameWon = false;
     bool b_gameOver = false;
 
+    // Win and lose screen text
     sf::Text gameWonText;
     gameWonText.setFont(font);
     gameWonText.setString("YOU WIN!");
@@ -171,6 +176,7 @@ int main() {
     gameOverText.setFillColor(sf::Color::Red);
     gameOverText.setPosition(200.0f, 250.0f);
 
+    // End screen buttons
     sf::RectangleShape btn_tryAgain(sf::Vector2f(200.0f, 50.0f));
     btn_tryAgain.setFillColor(sf::Color(0, 150, 0));
     btn_tryAgain.setPosition(150.0f, 350.0f);
@@ -201,14 +207,17 @@ int main() {
     if (!backgroundTexture.loadFromFile("../assets/Ang_Birds/Backgrounds.png"))
         std::cout << "Failed to load background" << std::endl;
 
+    // Textures used for the environment visuals
     sf::Texture skyTex, groundTex, grassTex, soilTex;
     skyTex.loadFromFile("../assets/Ang_Birds/Sky.png");
     groundTex.loadFromFile("../assets/Ang_Birds/Ground.png");
     grassTex.loadFromFile("../assets/Ang_Birds/Grass.png");
     soilTex.loadFromFile("../assets/Ang_Birds/Soil.png");
 
-    sf::Sprite skySpr, groundSpr, grassSpr, treesSpr, soilSpr;
+    //prites display the textures on screen
+    sf::Sprite skySpr, groundSpr, grassSpr, soilSpr;
 
+    // Scales sky texture to fit the window
     skySpr.setTexture(skyTex);
     skySpr.setScale(800.0f / skyTex.getSize().x, 600.0f / skyTex.getSize().y);
 
@@ -225,16 +234,16 @@ int main() {
     soilSpr.setPosition(0.0f, 570.0f);
 
   
-
+    // Toggles background decorations on/off
     bool showDecorations = false;
 
-
-
+    // Stores different object types together
     std::vector<DynamicObject*> mixedObjects;
     mixedObjects.push_back(&pig1);
     mixedObjects.push_back(&pig2);
     mixedObjects.push_back(&pig3);
 
+    // Checks object type before rendering
     for (auto it = mixedObjects.begin(); it != mixedObjects.end(); ++it) {
         Bird* asBird = dynamic_cast<Bird*>(*it);
         if (asBird) { asBird->render(); continue; }
@@ -243,6 +252,7 @@ int main() {
         if (asPig) { asPig->render(window); }
     }
 
+    // Deletes only Bird objects created dynamically
     for (auto obj : mixedObjects) {
         if (dynamic_cast<Bird*>(obj)) delete obj;
     }
@@ -251,6 +261,7 @@ int main() {
     Bird redBird("Red", 1.0f, 10.0f, "../assets/Ang_Birds/Angry_Birds.png", sf::IntRect(0, 0, 80, 80), 100.0f, 200.0f);
     Pig smallPig(20.0f, 50, world, b2Vec2(300.0f / 30.0f, 400.0f / 30.0f), "../assets/Ang_Birds/Pigs.png", sf::IntRect(0, 0, 120, 120));
 
+    // Upcasting objects into DynamicObject pointers
     DynamicObject* obj1 = &redBird;
     DynamicObject* obj2 = &smallPig;
     DynamicObject* obj3 = &catapult;
@@ -260,11 +271,12 @@ int main() {
     obj2->update();
     obj3->update();
 
+    // Base class pointer accessing derived object
     std::cout << "\n--- Upcast to GameObject ---" << std::endl;
     GameObject* gameObj1 = &redBird;
     std::cout << "Type: " << gameObj1->getType() << std::endl;
 
-
+    // unique_ptr automatically handles memory cleanup
     std::cout << "\n--- Smart Pointer Demo ---" << std::endl;
     std::unique_ptr<Bird> smartBird = std::make_unique<Bird>(
         "Red", 1.0f, 10.0f,
@@ -272,9 +284,11 @@ int main() {
         sf::IntRect(906, 797, 45, 51),
         100.0f, 200.0f
     );
+
     std::cout << "Smart Bird type: " << smartBird->getType() << std::endl;
     std::cout << "Smart pointer automatically cleaned up when out of scope" << std::endl;
 
+    // shared_ptr allows multiple owners of one object
     std::shared_ptr<Enemy> smartEnemy = std::make_shared<Enemy>(100);
     std::cout << "Smart Enemy health: " << smartEnemy->getHealth() << std::endl;
     std::cout << "Shared pointer reference count: " << smartEnemy.use_count() << std::endl;
@@ -282,20 +296,26 @@ int main() {
     // --- 7. MAIN LOOP ---
     while (window.isOpen()) {
         sf::Event event;
+
+        // Handles all player input and window events
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
 
             // INPUT HANDLING: Press SPACE to launch
             if (event.type == sf::Event::KeyPressed) {
+
+                // Applies force to pig1 for testing
                 if (event.key.code == sf::Keyboard::P) {
                     pig1.applyImpulse(2.0f, -5.0f);
                 }
 
+                // Turns scenery on/off
                 if (event.key.code == sf::Keyboard::D) {
                     showDecorations = !showDecorations;
                 }
 
+                // Reduces pig count manually
                 if (event.key.code == sf::Keyboard::K) {
                     if (pigCount > 0) {
                         pigCount--;
@@ -303,6 +323,7 @@ int main() {
                     }
                 }
 
+                // Loads next bird into the catapult
                 if (event.key.code == sf::Keyboard::Space) {
                     if (!birdQueue.empty()) {
                         catapult.resetFired();
@@ -313,14 +334,21 @@ int main() {
             }
 
             if (event.type == sf::Event::MouseButtonPressed) {
+
+                // Left click starts catapult dragging
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     catapult.handleMousePress(sf::Vector2f(event.mouseButton.x, event.mouseButton.y));
                 }
 
+                // Handles end screen button clicks
                 if (b_showButtons && event.mouseButton.button == sf::Mouse::Left) {
                     sf::Vector2f mouse(event.mouseButton.x, event.mouseButton.y);
+
+                    // Closes the game
                     if (btn_quit.getGlobalBounds().contains(mouse))
                         window.close();
+
+                    // Restarts the game
                     if (btn_tryAgain.getGlobalBounds().contains(mouse)) {
                         char exePath[MAX_PATH];
                         GetModuleFileNameA(NULL, exePath, MAX_PATH);
@@ -330,16 +358,19 @@ int main() {
                     }
                 }
 
+                // Activates bird special ability
                 if (event.mouseButton.button == sf::Mouse::Right) {
                     if (catapult.isFired() && catapult.getLoadedBird())
                         catapult.getLoadedBird()->activate({ pig1.getBody(), pig2.getBody(), pig3.getBody() });
                 }
             }
 
+            // Updates catapult drag movement
             if (event.type == sf::Event::MouseMoved) {
                 catapult.handleMouseMove(sf::Vector2f(event.mouseMove.x, event.mouseMove.y));
             }
 
+            // Releases the bird from the catapult
             if (event.type == sf::Event::MouseButtonReleased) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     catapult.handleMouseRelease(sf::Vector2f(event.mouseButton.x, event.mouseButton.y));
@@ -350,21 +381,25 @@ int main() {
         // Update Physics
         world.Step(1.0f / 60.0f, 8, 3);
 
+        // Gets collision IDs from the contact listener
         auto hits = contactListener.getPointer();
+
+        // Damage applied when pigs are hit
         if (hits.count(3) && !pig1.isDestroyed()) pig1.takeDamage(100);
         if (hits.count(4) && !pig2.isDestroyed()) pig2.takeDamage(75);
         if (hits.count(5) && !pig3.isDestroyed()) pig3.takeDamage(100);
         if (hits.count(6) && !pig4.isDestroyed()) pig4.takeDamage(80);
 
-
+        // Instant kill collision check
         if (hits.count(999) || pig1.getBody()->GetUserData().pointer == 999) pig1.takeDamage(1000);
         if (pig2.getBody()->GetUserData().pointer == 999) pig2.takeDamage(1000);
         if (pig3.getBody()->GetUserData().pointer == 999) pig3.takeDamage(1000);
         if (pig4.getBody()->GetUserData().pointer == 999) pig4.takeDamage(1000);
 
-
+        //Clears stored collision data
         contactListener.s_ptr.clear();
 
+        // Checks if a structure block was hit
         if (contactListener.s_blockHit) {
             for (int i = 0; i < (int)staticObjects.size(); i++) {
                 if (!staticObjects[i].isDestroyed() &&
@@ -376,38 +411,46 @@ int main() {
             contactListener.hitBlockPtr = 0;
         }
 
+        //Updates living pigs only
         if (!pig1.isDestroyed()) pig1.update();
         if (!pig2.isDestroyed()) pig2.update();
         if (!pig3.isDestroyed()) pig3.update();
         if (!pig4.isDestroyed()) pig4.update();
 
-
+        // Counts pigs still alive
         int livePigs = (!pig1.isDestroyed()) + (!pig2.isDestroyed()) + (!pig3.isDestroyed()) + (!pig4.isDestroyed());
         pigText.setString("Pigs: " + std::to_string(livePigs));
 
+        // Player wins when all pigs are destroyed
         if (livePigs == 0) {
             b_gameWon = true;
             b_showButtons = true;
         }
 
+        // Starts game over timer when out of birds
         if (birdQueue.empty() && livePigs > 0 && !b_gameWon) {
             if (!b_gameOverTimerStarted) {
                 b_gameOverTimerStarted = true;
                 gameOverClock.restart();
             }
 
+            // Shows game over after 10 seconds
             if (gameOverClock.getElapsedTime().asSeconds() >= 10.0f) {
                 b_gameOver = true;
                 b_showButtons = true;
             }
         }
+        // Updates birds still waiting in queue
         for (auto it = birdQueue.begin(); it != birdQueue.end(); ++it)
             (*it)->update();
 
         catapult.update();
+
+        // Updates launched bird movement
         if (catapult.isFired() && catapult.getLoadedBird())
             catapult.getLoadedBird()->update();
 
+        // Moves visual mouse circle
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
             mouseCircle.setPosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
@@ -421,6 +464,8 @@ int main() {
 
         //Render all of the content at each frame. Remember you need to clear the screen each iteration or artefacts remain.
         window.clear(sf::Color(135, 206, 235)); // Sky Blue
+
+        // Draws scenery if enabled
         if (showDecorations) {
             window.draw(skySpr);
             window.draw(grassSpr);
@@ -430,16 +475,19 @@ int main() {
 
         window.draw(pigText);
 
+        // Draws birds still in queue
         for (auto it = birdQueue.begin(); it != birdQueue.end(); ++it)
             (*it)->render(window);
 
         catapult.render(window);
 
+        // Draws all structure blocks
         for (auto it = staticObjects.begin(); it != staticObjects.end(); ++it) {
             it->update();
             it->render(window);
         }
 
+        // Draws pigs that are still alive
         if (!pig1.isDestroyed()) pig1.render(window);
         if (!pig2.isDestroyed()) pig2.render(window);
         if (!pig3.isDestroyed()) pig3.render(window);
@@ -448,6 +496,8 @@ int main() {
 
         if (b_gameWon) window.draw(gameWonText);
         if (b_gameOver) window.draw(gameOverText);
+
+        // Draws menu buttons
         if (b_showButtons || b_gameWon) {
             window.draw(btn_tryAgain);
             window.draw(btn_quit);
