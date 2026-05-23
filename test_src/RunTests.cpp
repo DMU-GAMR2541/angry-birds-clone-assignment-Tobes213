@@ -135,6 +135,7 @@ TEST_F(DestructorTest, DestructorSequence_PigToGameObject) {
     EXPECT_EQ(destructorLog[2], "GameObject");
 }
 
+// SlingshotTest fixture - tests slingshot tension, bird type string comparisons
 class SlingshotTest : public testing::Test {
 public:
     std::unique_ptr<Slingshot> slingshot;
@@ -262,6 +263,7 @@ TEST_F(EnemyTest, Assert_LessThanOrEqual) {
     ASSERT_LE(enemy->getHealth(), 50);
 }
 
+// CatapultTest fixture - tests catapult drag mechanics and tension clamping
 class CatapultTest : public testing::Test {
 public:
     std::unique_ptr<Slingshot> slingshot;
@@ -329,7 +331,7 @@ TEST_F(CatapultTest, Expect_TensionLessThanOrEqualToMax) {
     EXPECT_LE(slingshot->getTension(), 100);
 }
 
-
+// BirdLoadTest fixture - tests bird loading, type changes and string comparisons
 class BirdLoadTest : public testing::Test {
 public:
     std::unique_ptr<Slingshot> slingshot;
@@ -382,7 +384,7 @@ TEST_F(BirdLoadTest, Expect_BirdTypeNotEqualAfterChange) {
     EXPECT_NE(slingshot->getBirdType(), "Red");
 }
 
-
+// BirdLoadParamTest - parameterised test across all four bird types
 class BirdLoadParamTest : public testing::TestWithParam<std::string> {};
 
 TEST_P(BirdLoadParamTest, AllBirdTypesLoadCorrectly) {
@@ -400,7 +402,7 @@ INSTANTIATE_TEST_SUITE_P(
     testing::Values("Red", "Chuck", "Bomb", "Matilda")
 );
 
-
+// PigCountTest fixture - tests pig count decrement and boundary conditions
 class PigCountTest : public testing::Test {
 public:
     int pigCount;
@@ -588,6 +590,7 @@ TEST_F(PigHealthTest, Expect_PigHealthNeverBelowZero) {
     EXPECT_GE(i_health, 0);
 }
 
+// WinLoseTest fixture - tests win and lose conditions based on pig and bird counts
 class WinLoseTest : public testing::Test {
 public:
     int pigCount;
@@ -624,6 +627,7 @@ TEST_F(WinLoseTest, Assert_InitialBirdCountIsFour) {
     ASSERT_EQ(birdCount, 4);
 }
 
+// BirdPowerupTest fixture - tests bird special ability activation and single use behaviour
 class BirdPowerupTest : public testing::Test {
 public:
     bool b_activated;
@@ -662,6 +666,7 @@ TEST_F(BirdPowerupTest, Assert_BirdTypeIsChuck) {
     ASSERT_EQ(str_birdType, "Chuck");
 }
 
+// BirdQueueTest fixture - tests bird queue container order and position of birds
 class BirdQueueTest : public testing::Test {
 public:
     std::list<std::string> birdQueue;
@@ -702,6 +707,60 @@ TEST_F(BirdQueueTest, Expect_QueueEmptyAfterAllPopped) {
     birdQueue.clear();
     EXPECT_TRUE(birdQueue.empty());
 }
+
+// CollisionTest fixture - tests collision damage, pig destruction and health boundaries
+class CollisionTest : public testing::Test {
+public:
+    std::unique_ptr<Enemy> pig;
+protected:
+    void SetUp() override {
+        pig = std::make_unique<Enemy>(100);
+    }
+    void TearDown() override {}
+};
+
+TEST_F(CollisionTest, Expect_PigSurvivesLowImpact) {
+    pig->takeDamage(50);
+    EXPECT_FALSE(pig->checkIfPopped());
+    EXPECT_GT(pig->getHealth(), 0);
+}
+
+TEST_F(CollisionTest, Expect_PigDiesOnDirectHit) {
+    pig->takeDamage(100);
+    EXPECT_TRUE(pig->checkIfPopped());
+}
+
+TEST_F(CollisionTest, Assert_PigHealthZeroAfterLethalHit) {
+    pig->takeDamage(100);
+    ASSERT_EQ(pig->getHealth(), 0);
+}
+
+TEST_F(CollisionTest, Expect_CollisionDamageNeverNegative) {
+    pig->takeDamage(200);
+    EXPECT_GE(pig->getHealth(), 0);
+}
+
+TEST_F(CollisionTest, Expect_MultipleHitsDestroy) {
+    pig->takeDamage(60);
+    pig->takeDamage(60);
+    EXPECT_TRUE(pig->checkIfPopped());
+}
+
+class CollisionParamTest : public testing::TestWithParam<int> {};
+
+TEST_P(CollisionParamTest, CollisionDamageReducesHealth) {
+    Enemy e(100);
+    int damage = GetParam();
+    e.takeDamage(damage);
+    EXPECT_LE(e.getHealth(), 100);
+    EXPECT_GE(e.getHealth(), 0);
+}
+
+INSTANTIATE_TEST_SUITE_P(
+    CollisionValues,
+    CollisionParamTest,
+    testing::Values(10, 25, 50, 75, 100)
+);
 
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
