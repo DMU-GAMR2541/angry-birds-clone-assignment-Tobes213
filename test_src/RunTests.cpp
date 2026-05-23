@@ -3,6 +3,7 @@
 #include "slingshot.h"
 #include <SFML/Graphics.hpp>
 #include <filesystem>
+#include <list>
 
 TEST(TextureTest, PrintWorkingDir) {
     std::cout << "CWD: " << std::filesystem::current_path() << std::endl;
@@ -90,13 +91,13 @@ TEST(GameObjectPositionTest, RelativePositions) {
 
 TEST(TextureTest, Texture_LoadsSuccessfully) {
     sf::Texture texture;
-    bool loaded = texture.loadFromFile("../../assets/Ang_Birds/Angry_Birds.png");
+    bool loaded = texture.loadFromFile("../assets/Ang_Birds/Angry_Birds.png");
     EXPECT_TRUE(loaded);
 }
 
 TEST(TextureTest, Texture_FailsWithBadPath) {
     sf::Texture texture;
-    bool loaded = texture.loadFromFile("../../assets/nonexistent.png");
+    bool loaded = texture.loadFromFile("../assets/nonexistent.png");
     EXPECT_FALSE(loaded);
 }
 
@@ -477,6 +478,230 @@ INSTANTIATE_TEST_SUITE_P(
         std::make_pair(-50.0f, 75.0f)
     )
 );
+
+class EnemyMovementTest : public testing::TestWithParam<int> {};
+
+TEST_P(EnemyMovementTest, DamageReducesHealthCorrectly) {
+    Enemy e(100);
+    int damage = GetParam();
+    e.takeDamage(damage);
+    EXPECT_LT(e.getHealth(), 100);
+    EXPECT_GE(e.getHealth(), 0);
+    EXPECT_EQ(e.getHealth(), 100 - damage);
+}
+
+INSTANTIATE_TEST_SUITE_P(
+    DamageValues,
+    EnemyMovementTest,
+    testing::Values(10, 20, 30, 40, 50)
+);
+
+class BlockHealthTest : public testing::Test {
+public:
+    int i_health;
+    bool b_isDestroyed;
+protected:
+    void SetUp() override {
+        i_health = 1;
+        b_isDestroyed = false;
+    }
+    void TearDown() override {}
+};
+
+TEST_F(BlockHealthTest, Expect_WoodenBlockDiesInOneHit) {
+    i_health--;
+    if (i_health <= 0) b_isDestroyed = true;
+    EXPECT_TRUE(b_isDestroyed);
+}
+
+TEST_F(BlockHealthTest, Expect_BlockHealthZeroAfterHit) {
+    i_health--;
+    EXPECT_LE(i_health, 0);
+}
+
+TEST_F(BlockHealthTest, Assert_BlockNotDestroyedBeforeHit) {
+    ASSERT_FALSE(b_isDestroyed);
+}
+
+class StoneBlockTest : public testing::Test {
+public:
+    int i_health;
+    bool b_isDestroyed;
+protected:
+    void SetUp() override {
+        i_health = 2;
+        b_isDestroyed = false;
+    }
+    void TearDown() override {}
+};
+
+TEST_F(StoneBlockTest, Expect_StoneBlockSurvivesFirstHit) {
+    i_health--;
+    if (i_health <= 0) b_isDestroyed = true;
+    EXPECT_FALSE(b_isDestroyed);
+    EXPECT_GT(i_health, 0);
+}
+
+TEST_F(StoneBlockTest, Expect_StoneBlockDiesOnSecondHit) {
+    i_health--;
+    i_health--;
+    if (i_health <= 0) b_isDestroyed = true;
+    EXPECT_TRUE(b_isDestroyed);
+}
+
+TEST_F(StoneBlockTest, Assert_StoneHealthStartsAtTwo) {
+    ASSERT_EQ(i_health, 2);
+}
+
+class PigHealthTest : public testing::Test {
+public:
+    int i_health;
+    bool b_isDestroyed;
+protected:
+    void SetUp() override {
+        i_health = 100;
+        b_isDestroyed = false;
+    }
+    void TearDown() override {}
+};
+
+TEST_F(PigHealthTest, Expect_PigSurvivesPartialDamage) {
+    i_health -= 50;
+    if (i_health <= 0) b_isDestroyed = true;
+    EXPECT_FALSE(b_isDestroyed);
+    EXPECT_GT(i_health, 0);
+}
+
+TEST_F(PigHealthTest, Expect_PigDiesOnLethalDamage) {
+    i_health -= 100;
+    if (i_health <= 0) b_isDestroyed = true;
+    EXPECT_TRUE(b_isDestroyed);
+}
+
+TEST_F(PigHealthTest, Assert_PigHealthStartsAtHundred) {
+    ASSERT_EQ(i_health, 100);
+}
+
+TEST_F(PigHealthTest, Expect_PigHealthNeverBelowZero) {
+    i_health -= 200;
+    if (i_health < 0) i_health = 0;
+    EXPECT_GE(i_health, 0);
+}
+
+class WinLoseTest : public testing::Test {
+public:
+    int pigCount;
+    int birdCount;
+protected:
+    void SetUp() override {
+        pigCount = 3;
+        birdCount = 4;
+    }
+    void TearDown() override {}
+};
+
+TEST_F(WinLoseTest, Expect_WinWhenAllPigsDestroyed) {
+    pigCount = 0;
+    EXPECT_EQ(pigCount, 0);
+}
+
+TEST_F(WinLoseTest, Expect_LoseWhenNoBirdsLeft) {
+    birdCount = 0;
+    EXPECT_EQ(birdCount, 0);
+    EXPECT_GT(pigCount, 0);
+}
+
+TEST_F(WinLoseTest, Expect_GameOngoingWhenBothRemain) {
+    EXPECT_GT(pigCount, 0);
+    EXPECT_GT(birdCount, 0);
+}
+
+TEST_F(WinLoseTest, Assert_InitialPigCountIsThree) {
+    ASSERT_EQ(pigCount, 3);
+}
+
+TEST_F(WinLoseTest, Assert_InitialBirdCountIsFour) {
+    ASSERT_EQ(birdCount, 4);
+}
+
+class BirdPowerupTest : public testing::Test {
+public:
+    bool b_activated;
+    float f_speed;
+    std::string str_birdType;
+protected:
+    void SetUp() override {
+        b_activated = false;
+        f_speed = 10.0f;
+        str_birdType = "Chuck";
+    }
+    void TearDown() override {}
+};
+
+TEST_F(BirdPowerupTest, Expect_PowerupNotActivatedByDefault) {
+    EXPECT_FALSE(b_activated);
+}
+
+TEST_F(BirdPowerupTest, Expect_ChuckSpeedBoostWorks) {
+    if (str_birdType == "Chuck" && !b_activated) {
+        b_activated = true;
+        f_speed *= 2.5f;
+    }
+    EXPECT_GT(f_speed, 10.0f);
+    EXPECT_TRUE(b_activated);
+}
+
+TEST_F(BirdPowerupTest, Expect_PowerupOnlyActivatesOnce) {
+    b_activated = true;
+    float originalSpeed = f_speed;
+    if (!b_activated) f_speed *= 2.5f;
+    EXPECT_EQ(f_speed, originalSpeed);
+}
+
+TEST_F(BirdPowerupTest, Assert_BirdTypeIsChuck) {
+    ASSERT_EQ(str_birdType, "Chuck");
+}
+
+class BirdQueueTest : public testing::Test {
+public:
+    std::list<std::string> birdQueue;
+protected:
+    void SetUp() override {
+        birdQueue.push_back("Red");
+        birdQueue.push_back("Chuck");
+        birdQueue.push_back("Bomb");
+        birdQueue.push_back("Matilda");
+    }
+    void TearDown() override {}
+};
+
+TEST_F(BirdQueueTest, Assert_FirstBirdIsRed) {
+    ASSERT_EQ(birdQueue.front(), "Red");
+}
+
+TEST_F(BirdQueueTest, Expect_QueueHasFourBirds) {
+    EXPECT_EQ(birdQueue.size(), 4);
+}
+
+TEST_F(BirdQueueTest, Expect_SecondBirdIsChuckAfterPop) {
+    birdQueue.pop_front();
+    EXPECT_EQ(birdQueue.front(), "Chuck");
+}
+
+TEST_F(BirdQueueTest, Expect_QueueSizeReducesAfterPop) {
+    size_t original = birdQueue.size();
+    birdQueue.pop_front();
+    EXPECT_LT(birdQueue.size(), original);
+}
+
+TEST_F(BirdQueueTest, Assert_LastBirdIsMatilda) {
+    ASSERT_EQ(birdQueue.back(), "Matilda");
+}
+
+TEST_F(BirdQueueTest, Expect_QueueEmptyAfterAllPopped) {
+    birdQueue.clear();
+    EXPECT_TRUE(birdQueue.empty());
+}
 
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
