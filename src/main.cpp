@@ -9,6 +9,8 @@
 #include "DynamicObject.h"
 #include "ContactListener.h"
 #include "NonInteractable.h"
+#include "Startscreen.h"
+#include "Memorypool.h"
 #include <list>
 #include <array>
 #include <tuple>
@@ -18,6 +20,9 @@ int main() {
     // --- 1. WINDOW SETUP ---
     sf::RenderWindow window(sf::VideoMode(800, 600), "Annoyed_Flocks");
     window.setFramerateLimit(60);
+
+    StartScreen startScreen(window);
+    startScreen.run();
 
     //Box2D works in meters. SFML works in pixels.
     const float SCALE = 30.0f;
@@ -38,6 +43,14 @@ int main() {
     Pig pig2(30.0f, 150, world, b2Vec2(355.0f / 30.0f, 340.0f / 30.0f), "../assets/Ang_Birds/sprite_2.png", sf::IntRect(5, 0, 89, 100));
     Pig pig3(40.0f, 200, world, b2Vec2(615.0f / 30.0f, 480.0f / 30.0f), "../assets/Ang_Birds/sprite_4.png", sf::IntRect(2, 8, 103, 98));
     Pig pig4(25.0f, 120, world, b2Vec2(580.0f / 30.0f, 340.0f / 30.0f), "../assets/Ang_Birds/sprite_2.png", sf::IntRect(5, 0, 89, 100));
+
+    PigMemoryPool pigPool(4);
+    int slot1 = pigPool.acquire(); pigPool.store(slot1, &pig1);
+    int slot2 = pigPool.acquire(); pigPool.store(slot2, &pig2);
+    int slot3 = pigPool.acquire(); pigPool.store(slot3, &pig3);
+    int slot4 = pigPool.acquire(); pigPool.store(slot4, &pig4);
+    std::cout << "Active pigs in pool: " << pigPool.activeCount() << std::endl;
+
 
     // Collision IDs for each pig
     pig1.getBody()->GetUserData().pointer = 3;
@@ -493,6 +506,11 @@ int main() {
         if (!pig3.isDestroyed()) pig3.render(window);
         if (!pig4.isDestroyed()) pig4.render(window);
         window.draw(mouseCircle); 
+
+        if (pig1.isDestroyed()) pigPool.release(slot1);
+        if (pig2.isDestroyed()) pigPool.release(slot2);
+        if (pig3.isDestroyed()) pigPool.release(slot3);
+        if (pig4.isDestroyed()) pigPool.release(slot4);
 
         if (b_gameWon) window.draw(gameWonText);
         if (b_gameOver) window.draw(gameOverText);

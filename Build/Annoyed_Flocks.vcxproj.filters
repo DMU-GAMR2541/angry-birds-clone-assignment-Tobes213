@@ -39,6 +39,12 @@
     <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\Memorypool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Startscreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="A:\Github\angry-birds-clone-assignment-Tobes213\CMakeLists.txt" />
