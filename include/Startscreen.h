@@ -114,15 +114,17 @@ public:
         std::thread t_sprites(&StartScreen::loadSprites, this);
         std::thread t_physics(&StartScreen::loadPhysics, this);
 
-        while (window.isOpen()) {
+        bool b_exit = false;
+
+        while (window.isOpen() && !b_exit) {
             sf::Event event;
             while (window.pollEvent(event)) {
                 if (event.type == sf::Event::Closed)
                     window.close();
                 if (b_done && event.type == sf::Event::KeyPressed)
-                    goto cleanup;
+                    b_exit = true;
                 if (b_done && event.type == sf::Event::MouseButtonPressed)
-                    goto cleanup;
+                    b_exit = true;
             }
 
             auto progressFuture = getProgressAsync();
@@ -148,7 +150,6 @@ public:
             window.display();
         }
 
-    cleanup:
         t_sprites.join();
         t_physics.join();
         std::cout << "Loading complete, starting game..." << std::endl;

@@ -162,7 +162,7 @@ int main() {
     if (!font.loadFromFile("../assets/fonts/angry-birds.ttf"))
         std::cout << "Failed to load font" << std::endl;
 
-    int pigCount = 3;
+    int pigCount = 4;
 
     sf::Text pigText;
     pigText.setFont(font);
@@ -374,7 +374,7 @@ int main() {
                 // Activates bird special ability
                 if (event.mouseButton.button == sf::Mouse::Right) {
                     if (catapult.isFired() && catapult.getLoadedBird())
-                        catapult.getLoadedBird()->activate({ pig1.getBody(), pig2.getBody(), pig3.getBody() });
+                        catapult.getLoadedBird()->activate({ pig1.getBody(), pig2.getBody(), pig3.getBody(), pig4.getBody() });
                 }
             }
 
@@ -507,10 +507,10 @@ int main() {
         if (!pig4.isDestroyed()) pig4.render(window);
         window.draw(mouseCircle); 
 
-        if (pig1.isDestroyed()) pigPool.release(slot1);
-        if (pig2.isDestroyed()) pigPool.release(slot2);
-        if (pig3.isDestroyed()) pigPool.release(slot3);
-        if (pig4.isDestroyed()) pigPool.release(slot4);
+        if (pig1.isDestroyed() && pigPool.get(slot1)) pigPool.release(slot1);
+        if (pig2.isDestroyed() && pigPool.get(slot2)) pigPool.release(slot2);
+        if (pig3.isDestroyed() && pigPool.get(slot3)) pigPool.release(slot3);
+        if (pig4.isDestroyed() && pigPool.get(slot4)) pigPool.release(slot4);
 
         if (b_gameWon) window.draw(gameWonText);
         if (b_gameOver) window.draw(gameOverText);

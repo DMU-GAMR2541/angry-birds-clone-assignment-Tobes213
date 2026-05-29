@@ -378,9 +378,11 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\DynamicObject.h" />
     <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Enemy.h" />
     <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\GameObject.h" />
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Memorypool.h" />
     <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\NonInteractable.h" />
     <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Pig.h" />
     <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Slingshot.h" />
+    <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\Startscreen.h" />
     <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\StaticObject.h" />
     <ClInclude Include="A:\Github\angry-birds-clone-assignment-Tobes213\include\UI.h" />
     <ClCompile Include="A:\Github\angry-birds-clone-assignment-Tobes213\test_src\RunTests.cpp" />
