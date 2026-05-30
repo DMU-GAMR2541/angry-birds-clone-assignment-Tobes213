@@ -16,6 +16,12 @@ public:
         std::cout << "PigMemoryPool created with " << size << " slots" << std::endl;
     }
 
+    bool isAvailable(int index) const {
+        if (index >= 0 && index < i_poolSize)
+            return v_available[index];
+        return true;
+    }
+
     int acquire() {
         for (int i = 0; i < i_poolSize; i++) {
             if (v_available[i]) {

@@ -164,6 +164,14 @@ int main() {
 
     int pigCount = 4;
 
+    int i_score = 0;
+
+    sf::Text scoreText;
+    scoreText.setFont(font);
+    scoreText.setString("Score: 0");
+    scoreText.setCharacterSize(24);
+    scoreText.setFillColor(sf::Color::White);
+    scoreText.setPosition(650.0f, 10.0f);
     sf::Text pigText;
     pigText.setFont(font);
     pigText.setString("Pigs: " + std::to_string(pigCount));
@@ -398,10 +406,10 @@ int main() {
         auto hits = contactListener.getPointer();
 
         // Damage applied when pigs are hit
-        if (hits.count(3) && !pig1.isDestroyed()) pig1.takeDamage(100);
-        if (hits.count(4) && !pig2.isDestroyed()) pig2.takeDamage(75);
-        if (hits.count(5) && !pig3.isDestroyed()) pig3.takeDamage(100);
-        if (hits.count(6) && !pig4.isDestroyed()) pig4.takeDamage(80);
+        if (hits.count(3) && !pig1.isDestroyed()) { pig1.takeDamage(100); if (pig1.isDestroyed()) { i_score += 1000; scoreText.setString("Score: " + std::to_string(i_score)); } }
+        if (hits.count(4) && !pig2.isDestroyed()) { pig2.takeDamage(75); if (pig2.isDestroyed()) { i_score += 1500; scoreText.setString("Score: " + std::to_string(i_score)); } }
+        if (hits.count(5) && !pig3.isDestroyed()) { pig3.takeDamage(100); if (pig3.isDestroyed()) { i_score += 2000; scoreText.setString("Score: " + std::to_string(i_score)); } }
+        if (hits.count(6) && !pig4.isDestroyed()) { pig4.takeDamage(80); if (pig4.isDestroyed()) { i_score += 1200; scoreText.setString("Score: " + std::to_string(i_score)); } }
 
         // Instant kill collision check
         if (hits.count(999) || pig1.getBody()->GetUserData().pointer == 999) pig1.takeDamage(1000);
@@ -487,6 +495,7 @@ int main() {
         }
 
         window.draw(pigText);
+        window.draw(scoreText);
 
         // Draws birds still in queue
         for (auto it = birdQueue.begin(); it != birdQueue.end(); ++it)
@@ -507,10 +516,10 @@ int main() {
         if (!pig4.isDestroyed()) pig4.render(window);
         window.draw(mouseCircle); 
 
-        if (pig1.isDestroyed() && pigPool.get(slot1)) pigPool.release(slot1);
-        if (pig2.isDestroyed() && pigPool.get(slot2)) pigPool.release(slot2);
-        if (pig3.isDestroyed() && pigPool.get(slot3)) pigPool.release(slot3);
-        if (pig4.isDestroyed() && pigPool.get(slot4)) pigPool.release(slot4);
+        if (pig1.isDestroyed() && !pigPool.isAvailable(slot1)) pigPool.release(slot1);
+        if (pig2.isDestroyed() && !pigPool.isAvailable(slot2)) pigPool.release(slot2);
+        if (pig3.isDestroyed() && !pigPool.isAvailable(slot3)) pigPool.release(slot3);
+        if (pig4.isDestroyed() && !pigPool.isAvailable(slot4)) pigPool.release(slot4);
 
         if (b_gameWon) window.draw(gameWonText);
         if (b_gameOver) window.draw(gameOverText);
