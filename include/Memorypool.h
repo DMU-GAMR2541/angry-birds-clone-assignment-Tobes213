@@ -8,11 +8,13 @@ private:
     std::vector<Pig*> v_pool;
     std::vector<bool> v_available;
     int i_poolSize;
+    std::vector<int> i_releaseCount;
 
 public:
     PigMemoryPool(int size) : i_poolSize(size) {
         v_pool.resize(size, nullptr);
         v_available.resize(size, true);
+        i_releaseCount.resize(size, 0);
         std::cout << "PigMemoryPool created with " << size << " slots" << std::endl;
     }
 
@@ -20,6 +22,20 @@ public:
         if (index >= 0 && index < i_poolSize)
             return v_available[index];
         return true;
+    }
+
+    void printStats() const {
+        std::cout << "\n--- Memory Pool Stats ---" << std::endl;
+        std::cout << "Pool size: " << i_poolSize << std::endl;
+        std::cout << "Active slots: " << activeCount() << std::endl;
+        std::cout << "Available slots: " << i_poolSize - activeCount() << std::endl;
+    }
+
+    void trackRelease(int index) {
+        if (index >= 0 && index < i_poolSize) {
+            i_releaseCount[index]++;
+            std::cout << "Slot " << index << " has been recycled " << i_releaseCount[index] << " times" << std::endl;
+        }
     }
 
     int acquire() {
@@ -48,6 +64,7 @@ public:
     void release(int index) {
         if (index >= 0 && index < i_poolSize) {
             v_available[index] = true;
+            trackRelease(index);
             std::cout << "PigMemoryPool: released slot " << index << std::endl;
         }
     }

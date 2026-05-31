@@ -50,7 +50,7 @@ int main() {
     int slot3 = pigPool.acquire(); pigPool.store(slot3, &pig3);
     int slot4 = pigPool.acquire(); pigPool.store(slot4, &pig4);
     std::cout << "Active pigs in pool: " << pigPool.activeCount() << std::endl;
-
+    pigPool.printStats();
 
     // Collision IDs for each pig
     pig1.getBody()->GetUserData().pointer = 3;
