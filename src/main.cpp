@@ -15,6 +15,7 @@
 #include <array>
 #include <tuple>
 #include <map>
+#include <algorithm>
 
 int main() {
     // --- 1. WINDOW SETUP ---
@@ -51,6 +52,22 @@ int main() {
     int slot4 = pigPool.acquire(); pigPool.store(slot4, &pig4);
     std::cout << "Active pigs in pool: " << pigPool.activeCount() << std::endl;
     pigPool.printStats();
+
+
+    std::vector<Pig*> pigList = { &pig1, &pig2, &pig3, &pig4 };
+
+    int alivePigs = std::count_if(pigList.begin(), pigList.end(), [](Pig* p) {
+        return !p->isDestroyed();
+        });
+    std::cout << "Alive pigs at start: " << alivePigs << std::endl;
+
+    auto firstDestroyed = std::find_if(pigList.begin(), pigList.end(), [](Pig* p) {
+        return p->isDestroyed();
+        });
+    if (firstDestroyed != pigList.end())
+        std::cout << "Found a destroyed pig" << std::endl;
+    else
+        std::cout << "No destroyed pigs at start" << std::endl;
 
     // Collision IDs for each pig
     pig1.getBody()->GetUserData().pointer = 3;
